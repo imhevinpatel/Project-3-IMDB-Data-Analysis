@@ -1,0 +1,48 @@
+SQL> set timing on
+SQL> column column_name format a15
+SQL> set linesize 200
+SQL> SELECT
+  2      nb.primaryname
+  3      || ' ; '
+  4      || min(tb.startyear)
+  5      || ' - ' 
+  6      || max(tb.startyear)
+  7      || ' ; '
+  8      || (max(tb.startyear)-min(tb.startyear))
+  9      || ' ; '
+ 10      || count(*)
+ 11      as "Name ; Year Range ; CareerSpan ; Number of Movies"
+ 12  FROM
+ 13      imdb00.name_basics      nb,
+ 14      imdb00.title_principals tp,
+ 15      imdb00.title_basics     tb
+ 16  WHERE
+ 17          nb.nconst = tp.nconst
+ 18      AND tp.tconst = tb.tconst
+ 19      AND nb.nconst IN (
+ 20          SELECT
+ 21              nconst
+ 22          FROM
+ 23              imdb00.name_basics
+ 24          WHERE
+ 25              lower(primaryname) IN ( 'johnny depp', 'judy garland', 'angelina jolie', 'gary oldman' )
+ 26      )
+ 27      AND lower(tb.titletype) = 'movie'
+ 28      AND lower(tp.category) IN ( 'actor', 'actress' )
+ 29      AND tb.startyear NOT LIKE '\N'
+ 30  GROUP BY
+ 31      nb.nconst,
+ 32      nb.primaryname
+ 33  ORDER BY
+ 34      nb.primaryname;
+
+Name ; Year Range ; CareerSpan ; Number of Movies                                                                                                                                                       
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Angelina Jolie ; 1995 - 2021 ; 26 ; 36
+Gary Oldman ; 1986 - 2021 ; 35 ; 53
+Johnny Depp ; 1984 - 2020 ; 36 ; 55
+Judy Garland ; 1937 - 1963 ; 26 ; 26
+
+Elapsed: 00:00:13.012
+SQL> Set timing off
+SQL> Set echo off

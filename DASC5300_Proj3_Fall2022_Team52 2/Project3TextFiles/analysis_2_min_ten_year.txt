@@ -1,0 +1,2498 @@
+SQL> set timing on
+SQL> column column_name format a15
+SQL> set linesize 200
+SQL> --Analysis 2
+SQL> --Actor & and Actress who did minimum movies in a particular year over the span of 10 years
+SQL> (
+  2      SELECT
+  3          nb.nconst
+  4          || ' ; '
+  5          || nb.primaryname
+  6          --|| ';'
+  7          --|| tb.startyear
+  8          || ' ; '
+  9          || COUNT(tb.titletype)
+ 10          || ' ; '
+ 11          || tp.category AS "ID ; Name ; MinMovieCount ; Category"
+ 12      FROM
+ 13               imdb00.name_basics nb
+ 14          JOIN imdb00.title_principals tp ON ( nb.nconst = tp.nconst )
+ 15          JOIN imdb00.title_basics     tb ON ( tp.tconst = tb.tconst )
+ 16      WHERE
+ 17          tp.category LIKE '%actor%'
+ 18          AND tb.titletype LIKE '%movie%'
+ 19          AND tb.startyear != '\N'
+ 20          AND ( tb.startyear BETWEEN '1953' AND '1962' )
+ 21          AND tp.category = 'actor'
+ 22      GROUP BY
+ 23          nb.primaryname,
+ 24          --tb.startyear,
+ 25          nb.nconst,
+ 26          tp.category
+ 27      HAVING
+ 28          COUNT(tb.titletype) >= 3
+ 29      ORDER BY
+ 30          COUNT(tb.titletype)
+ 31      FETCH FIRST 1 ROW WITH TIES
+ 32  )
+ 33  UNION ALL
+ 34  (
+ 35      SELECT
+ 36          nb.nconst
+ 37          || ' ; '
+ 38          || nb.primaryname
+ 39          --|| ';'
+ 40          --|| tb.startyear
+ 41          || ' ; '
+ 42          || COUNT(tb.titletype)
+ 43          || ' ; '
+ 44          || tp.category AS "ID ; Name ; MinMovieCount ; Category"
+ 45      FROM
+ 46               imdb00.name_basics nb
+ 47          JOIN imdb00.title_principals tp ON ( nb.nconst = tp.nconst )
+ 48          JOIN imdb00.title_basics     tb ON ( tp.tconst = tb.tconst )
+ 49      WHERE
+ 50          tp.category LIKE '%actress%'
+ 51          AND tb.titletype LIKE '%movie%'
+ 52          AND tb.startyear != '\N'
+ 53          AND ( tb.startyear BETWEEN '1953' AND '1962' )
+ 54          AND tp.category = 'actress'
+ 55      GROUP BY
+ 56          nb.primaryname,
+ 57          --tb.startyear,
+ 58          nb.nconst,
+ 59          tp.category
+ 60      HAVING
+ 61          COUNT(tb.titletype) >= 3
+ 62      ORDER BY
+ 63          COUNT(tb.titletype)
+ 64      FETCH FIRST 1 ROW WITH TIES
+ 65  );
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0013638 ; Manuel Aguilera ; 3 ; actor
+nm3450026 ; Kazuki Nishi ; 3 ; actor
+nm3670373 ; Lyonya Babich ; 3 ; actor
+nm4458921 ; Han Funayama ; 3 ; actor
+nm5216754 ; Eddy Junior ; 3 ; actor
+nm1185803 ; Tomijuro Nakamura ; 3 ; actor
+nm8055227 ; P.V. Narasimha Bharathi ; 3 ; actor
+nm2944474 ; Udjang ; 3 ; actor
+nm0398513 ; Takanobu Hozumi ; 3 ; actor
+nm3173883 ; Shingo Kiyokawa ; 3 ; actor
+nm2778233 ; Chatir Harro ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm3368833 ; Dou Hu ; 3 ; actor
+nm2694182 ; La-Yun Wu ; 3 ; actor
+nm7725424 ; Jose Velez ; 3 ; actor
+nm1044824 ; Flor Bien ; 3 ; actor
+nm3289055 ; Ben Delgado ; 3 ; actor
+nm0813507 ; Anatoliy Solovyov ; 3 ; actor
+nm0128744 ; Humberto Cahuich ; 3 ; actor
+nm0503732 ; Bert LeRoy Jr. ; 3 ; actor
+nm1393264 ; Ayhan Candeger ; 3 ; actor
+nm2667795 ; Ariati ; 3 ; actor
+nm1276382 ; Xida Li ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm1347418 ; Shunichi Segi ; 3 ; actor
+nm1253783 ; Kun Xiang ; 3 ; actor
+nm0335116 ; Janis Grantins ; 3 ; actor
+nm1251753 ; Deji Huo ; 3 ; actor
+nm1253874 ; Hui Zhang ; 3 ; actor
+nm0785081 ; Semih Sergen ; 3 ; actor
+nm0594679 ; Hiroshi Mizuno ; 3 ; actor
+nm0037571 ; Mehmet Aslan ; 3 ; actor
+nm0652060 ; Mokhtar Osman ; 3 ; actor
+nm1111140 ; Rauf Ulukut ; 3 ; actor
+nm0457273 ; Konstantin Kisimov ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0690452 ; Asoka Ponnamperuma ; 3 ; actor
+nm0007717 ; Dodo Abashidze ; 3 ; actor
+nm0310181 ; Jandhyala Gaurinatha Sastri ; 3 ; actor
+nm0946196 ; Tasos Giannopoulos ; 3 ; actor
+nm1534028 ; Gopal Sehgal ; 3 ; actor
+nm0765348 ; Rama Sarma ; 3 ; actor
+nm0068556 ; Tony Bell ; 3 ; actor
+nm0010111 ; Wolf Ackva ; 3 ; actor
+nm1796683 ; Lin Ma ; 3 ; actor
+nm1863394 ; Wan Chan ; 3 ; actor
+nm3505453 ; Bik Lam ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0386406 ; Shôichi Hirose ; 3 ; actor
+nm0945470 ; Rin'ichi Yamamoto ; 3 ; actor
+nm0061179 ; Xandó Batista ; 3 ; actor
+nm0145441 ; Carlos Castro ; 3 ; actor
+nm0080076 ; Paulo Gilvan Bezerril ; 3 ; actor
+nm3984984 ; Kuan-Chun Chu ; 3 ; actor
+nm0411073 ; Rei Ishikawa ; 3 ; actor
+nm0525231 ; Alejandro Lugo ; 3 ; actor
+nm0845381 ; Mário Sérgio ; 3 ; actor
+nm0155019 ; Viktor Chekmaryov ; 3 ; actor
+nm0198637 ; Yorgos Damasiotis ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0145005 ; Alberto Castillo ; 3 ; actor
+nm1794931 ; Siu-Loi Chow ; 3 ; actor
+nm4380054 ; Siu-Man Lau ; 3 ; actor
+nm0126736 ; Rolland Bédard ; 3 ; actor
+nm0298852 ; Yves Furet ; 3 ; actor
+nm0823072 ; Viktor Starcic ; 3 ; actor
+nm0476987 ; Stefan Kvietik ; 3 ; actor
+nm9209198 ; Ajit Bandyopadhyay ; 3 ; actor
+nm0352032 ; Kamal Haasan ; 3 ; actor
+nm0097886 ; Naresh Bose ; 3 ; actor
+nm8534070 ; K.D. Santhanam ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm9984483 ; Woon-Bong Kim ; 3 ; actor
+nm0472622 ; Lev Kruglyy ; 3 ; actor
+nm0895694 ; Wilson Vianna ; 3 ; actor
+nm0794590 ; Fyodor Shmakov ; 3 ; actor
+nm0162574 ; Boris Ciornei ; 3 ; actor
+nm3271949 ; Ke Bi ; 3 ; actor
+nm0538815 ; Jimmy Makulis ; 3 ; actor
+nm0429580 ; Horst Jonischkan ; 3 ; actor
+nm0255812 ; Søren Elung Jensen ; 3 ; actor
+nm0028081 ; Martín Andrade ; 3 ; actor
+nm0194387 ; Mieczyslaw Czechowicz ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0022106 ; José Alonso Cano ; 3 ; actor
+nm0454285 ; Helmo Kindermann ; 3 ; actor
+nm0083424 ; Norman Bird ; 3 ; actor
+nm0129634 ; Richard Caldicot ; 3 ; actor
+nm0001276 ; Jackie Gleason ; 3 ; actor
+nm0018872 ; Manuel Alexandre ; 3 ; actor
+nm0106539 ; Peter Breck ; 3 ; actor
+nm0099406 ; Henryk Boukolowski ; 3 ; actor
+nm0129378 ; George Calboreanu ; 3 ; actor
+nm0475610 ; Leonid Kuravlyov ; 3 ; actor
+nm0048103 ; Henryk Bak ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0292226 ; Ronald Fraser ; 3 ; actor
+nm0087347 ; Victorio Blanco ; 3 ; actor
+nm0814723 ; Daniel Sorano ; 3 ; actor
+nm0876519 ; John Turner ; 3 ; actor
+nm0831420 ; Tor Stokke ; 3 ; actor
+nm0096823 ; Don Borisenko ; 3 ; actor
+nm0434010 ; Lubomir Kabakchiyev ; 3 ; actor
+nm0546652 ; Milorad Margetic ; 3 ; actor
+nm0755168 ; Leonard Sachs ; 3 ; actor
+nm0590956 ; Nico Minardos ; 3 ; actor
+nm1324404 ; Masao Takamatsu ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0291598 ; William Franklyn ; 3 ; actor
+nm0416220 ; Francisco Jambrina ; 3 ; actor
+nm0164766 ; Gary Clarke ; 3 ; actor
+nm0904651 ; Zoltán Várkonyi ; 3 ; actor
+nm0653942 ; Frank Overton ; 3 ; actor
+nm0853299 ; Vaughn Taylor ; 3 ; actor
+nm0897283 ; Mihajlo Viktorovic ; 3 ; actor
+nm0809783 ; Roger Smith ; 3 ; actor
+nm0261375 ; Paul Esser ; 3 ; actor
+nm0278366 ; Ion Fintesteanu ; 3 ; actor
+nm0561089 ; Roberto Mauri ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0578542 ; Glenn Melvyn ; 3 ; actor
+nm0326642 ; Sergei Golovanov ; 3 ; actor
+nm0307560 ; Richard Garland ; 3 ; actor
+nm0584822 ; Elmo Michel ; 3 ; actor
+nm0957088 ; Zygmunt Zintel ; 3 ; actor
+nm0275825 ; Erich Fiedler ; 3 ; actor
+nm0309588 ; Larry Gates ; 3 ; actor
+nm0622956 ; Mario Navarro ; 3 ; actor
+nm0401309 ; Paavo Hukkinen ; 3 ; actor
+nm0464436 ; Viktor Koltsov ; 3 ; actor
+nm0211807 ; Modesto De Souza ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0753716 ; Albert Rémy ; 3 ; actor
+nm0182015 ; Hans Cossy ; 3 ; actor
+nm0243894 ; Checco Durante ; 3 ; actor
+nm0525940 ; Dayton Lummis ; 3 ; actor
+nm0565229 ; Lin McCarthy ; 3 ; actor
+nm0339579 ; Hubert Gregg ; 3 ; actor
+nm0528924 ; Earle Lyon ; 3 ; actor
+nm0580951 ; Mikhail Merkulov ; 3 ; actor
+nm0250551 ; Karel Effa ; 3 ; actor
+nm1149571 ; Adolf Král ; 3 ; actor
+nm0230948 ; George Dolenz ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0040266 ; Nicky Atanasiu ; 3 ; actor
+nm0219221 ; Michael Denison ; 3 ; actor
+nm0434245 ; Stanislaw Zaczyk ; 3 ; actor
+nm0166477 ; George Cleveland ; 3 ; actor
+nm0362823 ; Robertson Hare ; 3 ; actor
+nm0076069 ; Francisco Bernal ; 3 ; actor
+nm0598823 ; Carlos Montalbán ; 3 ; actor
+nm0254995 ; Mirko Ellis ; 3 ; actor
+nm0168658 ; Peter Coe ; 3 ; actor
+nm0323583 ; Tito Gobbi ; 3 ; actor
+nm0378026 ; William Henry ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0335510 ; Kirby Grant ; 3 ; actor
+nm0266164 ; Lauritz Falk ; 3 ; actor
+nm0174455 ; Wolfgang Condrus ; 3 ; actor
+nm0940579 ; Donald Woods ; 3 ; actor
+nm0002116 ; Paul Guilfoyle ; 3 ; actor
+nm0472816 ; Jack Kruschen ; 3 ; actor
+nm0850946 ; Rolf Tasna ; 3 ; actor
+nm9090075 ; Yin Huang ; 3 ; actor
+nm0595923 ; Mohan Sherry ; 3 ; actor
+nm1796069 ; Hiroshi Izumida ; 3 ; actor
+nm0423237 ; Jiufeng Shi ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0348011 ; Piyadasa Gunasekara ; 3 ; actor
+nm4732496 ; Bandu Munasinghe ; 3 ; actor
+nm2054198 ; Baiwan Li ; 3 ; actor
+nm3158006 ; Nighat ; 3 ; actor
+nm3138186 ; Sjamsu ; 3 ; actor
+nm1305913 ; Wisjnu Mouradhy ; 3 ; actor
+nm0257932 ; Hyôe Enoki ; 3 ; actor
+nm9496733 ; Cheng-Pang Hsu ; 3 ; actor
+nm1784716 ; Yasushi Obata ; 3 ; actor
+nm0645269 ; Akira Ôizumi ; 3 ; actor
+nm7730616 ; Pao-Chi Tien ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm2965240 ; Ric Mojica ; 3 ; actor
+nm1220634 ; Kenzô Echigo ; 3 ; actor
+nm4908987 ; Pieter Bezuidenhout ; 3 ; actor
+nm2798798 ; Parviz Khansari ; 3 ; actor
+nm1927681 ; Mat Ranillo Jr. ; 3 ; actor
+nm6188988 ; Iqbal Mishra ; 3 ; actor
+nm9498114 ; Kamal Hussain ; 3 ; actor
+nm8595303 ; Kamel Anwar ; 3 ; actor
+nm0594798 ; Ruben Mkrtchyan ; 3 ; actor
+nm1181185 ; Moezzodivan Fekri ; 3 ; actor
+nm1253792 ; Liankai Xu ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm7848952 ; Celal Adanali ; 3 ; actor
+nm1095270 ; Neset Berküren ; 3 ; actor
+nm1231515 ; Ayhan Batu ; 3 ; actor
+nm0958610 ; Alfonso Zulueta ; 3 ; actor
+nm0296816 ; Jan Frydenlund ; 3 ; actor
+nm1401729 ; Ahmad C. ; 3 ; actor
+nm1087106 ; Giorgos Foras ; 3 ; actor
+nm4811098 ; T.K. Ramachandra ; 3 ; actor
+nm0856673 ; Jorge Treviño ; 3 ; actor
+nm0195676 ; Ángel Di Stefani ; 3 ; actor
+nm0389888 ; Hoi-Chuen Lee ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0487881 ; Agustín Lara ; 3 ; actor
+nm11537169 ; Ranjit Budhkar ; 3 ; actor
+nm1000593 ; Shao Chuan Chu ; 3 ; actor
+nm2129914 ; K.P. Kottarakara ; 3 ; actor
+nm5504713 ; Masao Akizuki ; 3 ; actor
+nm2648348 ; Chuan Ting ; 3 ; actor
+nm1900332 ; Haruo Minami ; 3 ; actor
+nm5475560 ; Shinichi Hamada ; 3 ; actor
+nm10722120 ; Monme'ichi Amano ; 3 ; actor
+nm0686687 ; Radomir 'Rasa' Plaovic ; 3 ; actor
+nm0882788 ; Einar Vaage ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm1307308 ; Eduardo Cobas ; 3 ; actor
+nm0763282 ; Colé Santana ; 3 ; actor
+nm6527068 ; Kwai-Lam Cheung ; 3 ; actor
+nm0946894 ; Anani Yavashev ; 3 ; actor
+nm0685236 ; Leonid Pirogov ; 3 ; actor
+nm0476937 ; Akaki Kvantaliani ; 3 ; actor
+nm1297858 ; Gani Agzamov ; 3 ; actor
+nm0062018 ; Alain Baugé ; 3 ; actor
+nm0701084 ; Igor Pushkaryov ; 3 ; actor
+nm0253573 ; E.H. Eric ; 3 ; actor
+nm0146613 ; Jean-Roger Caussimon ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0323479 ; Friedrich Gnaß ; 3 ; actor
+nm0270191 ; Anatoli Fedorinov ; 3 ; actor
+nm0721913 ; Quentin Reynolds ; 3 ; actor
+nm0055323 ; Nikolai Barmin ; 3 ; actor
+nm1167944 ; Mesut Sürmeli ; 3 ; actor
+nm3774478 ; Paavo Nurmi ; 3 ; actor
+nm0168324 ; Gary Cockrell ; 3 ; actor
+nm0412540 ; Kôji Iwamoto ; 3 ; actor
+nm0879364 ; Yrjö Tähtelä ; 3 ; actor
+nm0135908 ; Toma Caragiu ; 3 ; actor
+nm0273102 ; Rudolf Fernau ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0780297 ; Sean Scully ; 3 ; actor
+nm0403017 ; Robin Hunter ; 3 ; actor
+nm0143161 ; Oscar Casco ; 3 ; actor
+nm0910737 ; Sam Wanamaker ; 3 ; actor
+nm0474428 ; Viktor Kulakov ; 3 ; actor
+nm0793618 ; Masahiko Shimazu ; 3 ; actor
+nm0945850 ; Shin'ichi Yanagisawa ; 3 ; actor
+nm0792873 ; Adolf Shestakov ; 3 ; actor
+nm0813211 ; Raul Solnado ; 3 ; actor
+nm0904032 ; Bedrich Vrbský ; 3 ; actor
+nm0000846 ; Ian Bannen ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0053900 ; Inocencio Barbán ; 3 ; actor
+nm0881708 ; Evgeniy Urbanskiy ; 3 ; actor
+nm0001982 ; Sebastian Cabot ; 3 ; actor
+nm0102566 ; Marcel Bozzuffi ; 3 ; actor
+nm0260469 ; Javier Escrivá ; 3 ; actor
+nm0041136 ; Barry Atwater ; 3 ; actor
+nm0427230 ; Friedrich Joloff ; 3 ; actor
+nm0586393 ; George Mikell ; 3 ; actor
+nm0246252 ; Aleksander Dzwonkowski ; 3 ; actor
+nm0155955 ; Georgi Chernovolenko ; 3 ; actor
+nm0832415 ; Larry Storch ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0122357 ; Don Burnett ; 3 ; actor
+nm0053941 ; Jaime Barcellos ; 3 ; actor
+nm0344784 ; Stig Grybe ; 3 ; actor
+nm0021913 ; Sven Almgren ; 3 ; actor
+nm0426157 ; Russell Johnson ; 3 ; actor
+nm0580565 ; Burgess Meredith ; 3 ; actor
+nm0126713 ; Gilbert Bécaud ; 3 ; actor
+nm0895259 ; Bruno VeSota ; 3 ; actor
+nm0600886 ; Alvy Moore ; 3 ; actor
+nm0094476 ; Mike Bongiorno ; 3 ; actor
+nm0530555 ; Gustaf Lövås ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0471854 ; Berry Kroeger ; 3 ; actor
+nm0310843 ; Gregory Gaye ; 3 ; actor
+nm0137687 ; Marco de Carlo ; 3 ; actor
+nm0085782 ; Sidney Blackmer ; 3 ; actor
+nm0222742 ; Vyacheslav Devkin ; 3 ; actor
+nm0878410 ; Oke Tuuri ; 3 ; actor
+nm0803561 ; Gunnar Sjöberg ; 3 ; actor
+nm0812511 ; Semyon Sokolovsky ; 3 ; actor
+nm0451815 ; Akaki Khorava ; 3 ; actor
+nm0248657 ; Fritz Eckhardt ; 3 ; actor
+nm0487290 ; Jorge Lanza ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0871432 ; Richard Travis ; 3 ; actor
+nm0745700 ; Raymond Rouleau ; 3 ; actor
+nm0724967 ; Edwin Richfield ; 3 ; actor
+nm0669363 ; Richard Pearson ; 3 ; actor
+nm0333434 ; Valentin Grachyov ; 3 ; actor
+nm0764369 ; Gianni Santuccio ; 3 ; actor
+nm0010468 ; Robert Adair ; 3 ; actor
+nm0547028 ; Edwin Marian ; 3 ; actor
+nm0015391 ; Claude Akins ; 3 ; actor
+nm0759465 ; Agostino Salvietti ; 3 ; actor
+nm0001991 ; Leo G. Carroll ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0260951 ; José Ángel Espinosa 'Ferrusquilla' ; 3 ; actor
+nm0200626 ; Helmut Dantine ; 3 ; actor
+nm0054093 ; Steve Barclay ; 3 ; actor
+nm0288311 ; Robert Foulk ; 3 ; actor
+nm0230646 ; Jirí Dohnal ; 3 ; actor
+nm0427934 ; Dickie Jones ; 3 ; actor
+nm0718835 ; George Relph ; 3 ; actor
+nm0481270 ; Sture Lagerwall ; 3 ; actor
+nm0024157 ; Jean-Marie Amato ; 3 ; actor
+nm0841662 ; Dale Swanepoel ; 3 ; actor
+nm0033612 ; Bernard Archard ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0441571 ; Kôichi Katsuragi ; 3 ; actor
+nm3078248 ; R.R. Sumiati ; 3 ; actor
+nm1832191 ; Kichiya Bando ; 3 ; actor
+nm0212034 ; Cris de Vera ; 3 ; actor
+nm0299215 ; Toshihiko Furuta ; 3 ; actor
+nm3756238 ; Ichirô Aminaka ; 3 ; actor
+nm4239653 ; Napoleonas Bernotas ; 3 ; actor
+nm5615397 ; Chang-Chiang Yang ; 3 ; actor
+nm1815795 ; Kyôji Hayakawa ; 3 ; actor
+nm2545111 ; Saber Atashin ; 3 ; actor
+nm0415419 ; Parviz Jafari ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm1181505 ; Mohammad Ali Jafari ; 3 ; actor
+nm2262460 ; Kan'an Kiani ; 3 ; actor
+nm8724896 ; Keran Chen ; 3 ; actor
+nm0019779 ; Orhan Alkan ; 3 ; actor
+nm0202515 ; Charlie Davao ; 3 ; actor
+nm1209238 ; Paresh Bannerjee ; 3 ; actor
+nm10074047 ; Samir Shedid ; 3 ; actor
+nm0610785 ; Mu Bai ; 3 ; actor
+nm0423090 ; Yan Jin ; 3 ; actor
+nm1076712 ; Zhenqing Guo ; 3 ; actor
+nm0069994 ; Ben Niu ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm1275835 ; Yuntai Guo ; 3 ; actor
+nm9767749 ; Wagih El Atrash ; 3 ; actor
+nm0958575 ; Mahmoud Zulfikar ; 3 ; actor
+nm0622420 ; Shunji Natsume ; 3 ; actor
+nm0336173 ; Aleksandr Grave ; 3 ; actor
+nm0034870 ; Marat Aripov ; 3 ; actor
+nm0789546 ; Giorgi Shavgulidze ; 3 ; actor
+nm0598777 ; Lee Montague ; 3 ; actor
+nm0432479 ; Mahmud June ; 3 ; actor
+nm0267045 ; Ahmed Farahat ; 3 ; actor
+nm0663238 ; Alejandro Parodi ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0998979 ; Jirí Lukes ; 3 ; actor
+nm0634777 ; S. Roomai Noor ; 3 ; actor
+nm0968579 ; Theodoros Arabatzis ; 3 ; actor
+nm8577186 ; R. Nageshwara Rao ; 3 ; actor
+nm0904035 ; Robert Vrchota ; 3 ; actor
+nm1532166 ; Vishwas Kunte ; 3 ; actor
+nm1209386 ; G.N. Butt ; 3 ; actor
+nm0955650 ; Ivan Zhevago ; 3 ; actor
+nm0481576 ; Tulsi Lahiri ; 3 ; actor
+nm0083002 ; Gikas Biniaris ; 3 ; actor
+nm0125552 ; Nand Buyl ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm1775308 ; Chi Lu ; 3 ; actor
+nm0398985 ; Feng Huang ; 3 ; actor
+nm0874597 ; Nikos Tsachiridis ; 3 ; actor
+nm0340716 ; Wilson Grey ; 3 ; actor
+nm2978346 ; Lu-Yueh Lin ; 3 ; actor
+nm0098447 ; Wellington Botelho ; 3 ; actor
+nm1014575 ; Warly Ceriani ; 3 ; actor
+nm1004078 ; Julián Bourges ; 3 ; actor
+nm0292707 ; Fred Villar ; 3 ; actor
+nm0097439 ; Carlos Borsani ; 3 ; actor
+nm0044248 ; Odilon Azevedo ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0901027 ; Giannis Vogiatzis ; 3 ; actor
+nm1231755 ; Juan Buryúa Rey ; 3 ; actor
+nm0125557 ; Dimitar Buynozov ; 3 ; actor
+nm3777510 ; Ryûji Oki ; 3 ; actor
+nm0202132 ; Keshavrao Date ; 3 ; actor
+nm1190045 ; Latheef ; 3 ; actor
+nm0765269 ; Kali Sarkar ; 3 ; actor
+nm0767194 ; Serge Sauvion ; 3 ; actor
+nm1185730 ; Misra ; 3 ; actor
+nm0025608 ; Chetan Anand ; 3 ; actor
+nm0054284 ; Michel Bardinet ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0708415 ; Ramlal ; 3 ; actor
+nm0211785 ; Jackson De Souza ; 3 ; actor
+nm0803732 ; Henning Skaarup ; 3 ; actor
+nm0175669 ; Jess Conrad ; 3 ; actor
+nm0188986 ; Gary Crosby ; 3 ; actor
+nm0467367 ; Józef Kostecki ; 3 ; actor
+nm0850122 ; Martin Tapák ; 3 ; actor
+nm0528224 ; Alfred Lynch ; 3 ; actor
+nm0665785 ; François Patrice ; 3 ; actor
+nm0945597 ; Junichiro Yamashita ; 3 ; actor
+nm0467478 ; Petr Kostka ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0001321 ; Richard Harris ; 3 ; actor
+nm0657788 ; Frederik van Pallandt ; 3 ; actor
+nm0518663 ; London ; 3 ; actor
+nm0299796 ; Zsigmond Fülöp ; 3 ; actor
+nm0128405 ; José María Caffarel ; 3 ; actor
+nm0626352 ; Derren Nesbitt ; 3 ; actor
+nm0386066 ; Michael Hinz ; 3 ; actor
+nm0002019 ; Kevin Corcoran ; 3 ; actor
+nm0855829 ; Steven Terrell ; 3 ; actor
+nm1742457 ; Dollah Sarawak ; 3 ; actor
+nm0323798 ; John Goddard ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0778310 ; Siegfried Schürenberg ; 3 ; actor
+nm0426799 ; Oliver Johnston ; 3 ; actor
+nm0504196 ; William Leslie ; 3 ; actor
+nm0246942 ; Fred Düren ; 3 ; actor
+nm0001889 ; Charles Hawtrey ; 3 ; actor
+nm0457334 ; Ferenc Kiss ; 3 ; actor
+nm0206060 ; Anthony Dawson ; 3 ; actor
+nm0029817 ; Ion Anghel ; 3 ; actor
+nm0517818 ; Gerard Lohan ; 3 ; actor
+nm0632423 ; Annibale Ninchi ; 3 ; actor
+nm0369058 ; Raymond Hatton ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0245581 ; Valentine Dyall ; 3 ; actor
+nm0530961 ; Mustapha Maarof ; 3 ; actor
+nm0269485 ; Charles Fawcett ; 3 ; actor
+nm0676789 ; Colin Petersen ; 3 ; actor
+nm0459252 ; Werner Klemperer ; 3 ; actor
+nm0528015 ; Reg Lye ; 3 ; actor
+nm0189972 ; Andrew Cruickshank ; 3 ; actor
+nm0257920 ; William Russell ; 3 ; actor
+nm0061105 ; Peter Bathurst ; 3 ; actor
+nm0461727 ; Kolbjörn Knudsen ; 3 ; actor
+nm0217466 ; Carlo Delle Piane ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0801704 ; Peter Sinclair ; 3 ; actor
+nm0845756 ; Walther Süssenguth ; 3 ; actor
+nm0457523 ; Takashi Kitahara ; 3 ; actor
+nm0613638 ; Radner Muratov ; 3 ; actor
+nm0337000 ; Vernon Gray ; 3 ; actor
+nm0956384 ; Stevo Zigon ; 3 ; actor
+nm0797669 ; Vilho Siivola ; 3 ; actor
+nm0118014 ; Jack Buchanan ; 3 ; actor
+nm0121512 ; Vlasta Burian ; 3 ; actor
+nm0678323 ; Iván Petrovich ; 3 ; actor
+nm0585553 ; Ray Middleton ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0651987 ; Georgiy Osipenko ; 3 ; actor
+nm0728508 ; Steven Ritch ; 3 ; actor
+nm0824496 ; Bob Steele ; 3 ; actor
+nm0727311 ; Adriano Rimoldi ; 3 ; actor
+nm0581416 ; George Merritt ; 3 ; actor
+nm0057814 ; León Barroso ; 3 ; actor
+nm0002369 ; John Williams ; 3 ; actor
+nm0479233 ; Uuno Laakso ; 3 ; actor
+nm0728916 ; Leo Riuttu ; 3 ; actor
+nm0658148 ; Byron Palmer ; 3 ; actor
+nm0119587 ; Gérard Buhr ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0578170 ; Umberto Melnati ; 3 ; actor
+nm0150706 ; Gower Champion ; 3 ; actor
+nm1343928 ; Ashu Bose ; 3 ; actor
+nm0408188 ; Fritz Imhoff ; 3 ; actor
+nm0162101 ; Modesto Cid ; 3 ; actor
+nm0582544 ; Svend Methling ; 3 ; actor
+nm0725332 ; Paul Richter ; 3 ; actor
+nm0083910 ; Paul Bisciglia ; 3 ; actor
+nm0162242 ; Emilio Cigoli ; 3 ; actor
+nm9174681 ; Mieko Inagaki ; 3 ; actor
+nm8713088 ; Hitoshi Miyazaki ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0037987 ; Konstantin Artyomenko ; 3 ; actor
+nm2974448 ; Hideo Fujimura ; 3 ; actor
+nm0750410 ; Ravindra Rupasena ; 3 ; actor
+nm1253905 ; Xinghuo Zhong ; 3 ; actor
+nm0256874 ; Teppei Endô ; 3 ; actor
+nm1314486 ; Yelu Gu ; 3 ; actor
+nm2518312 ; Anwar Hossain ; 3 ; actor
+nm2930302 ; Rahman ; 3 ; actor
+nm1044683 ; Vic Andaya ; 3 ; actor
+nm0191281 ; Wei Cui ; 3 ; actor
+nm7730615 ; Yu-Lang Chu ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm10047442 ; Young Kim ; 3 ; actor
+nm2713842 ; Benny Mack ; 3 ; actor
+nm1212954 ; Gurgen Gabrielyan ; 3 ; actor
+nm1288343 ; Hassan Raziani ; 3 ; actor
+nm12909196 ; Ali Komeili ; 3 ; actor
+nm2803930 ; Rafael Jimenez ; 3 ; actor
+nm1326727 ; Kemal Deliorman ; 3 ; actor
+nm9885327 ; Hooshang Etezadi ; 3 ; actor
+nm10601439 ; Abdulaziz Ahmad ; 3 ; actor
+nm1184348 ; Dariush Asadzade ; 3 ; actor
+nm0372016 ; Sami Hazinses ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm1283608 ; Wancheng Li ; 3 ; actor
+nm0130531 ; Baki Çallioglu ; 3 ; actor
+nm0879613 ; Osman Türkoglu ; 3 ; actor
+nm1027912 ; Ebrahim Bagheri ; 3 ; actor
+nm0006767 ; Narayana Rao C.H. ; 3 ; actor
+nm1870704 ; Sahu Samuel ; 3 ; actor
+nm0660938 ; Raja Paranjpe ; 3 ; actor
+nm1195723 ; S.A. Natarajan ; 3 ; actor
+nm0836103 ; Otto Stübler ; 3 ; actor
+nm1073304 ; Artemis Matsas ; 3 ; actor
+nm0080246 ; Paravoor Bharathan ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0651281 ; Álvaro Ortiz ; 3 ; actor
+nm0438468 ; Bhupendra Kapoor ; 3 ; actor
+nm12436399 ; Kaka Keni ; 3 ; actor
+nm0030973 ; P.J. Anthony ; 3 ; actor
+nm0266762 ; Yuen Fang ; 3 ; actor
+nm5628341 ; Wan-Fai Ng ; 3 ; actor
+nm0948949 ; Yoshio Yoshida ; 3 ; actor
+nm0088080 ; Blecaute ; 3 ; actor
+nm1256649 ; Osvaldo Bruzzi ; 3 ; actor
+nm0406726 ; Kin'ya Ichikawa ; 3 ; actor
+nm5231587 ; Ryuji Arishima ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm4825539 ; Fai-Fai Chau ; 3 ; actor
+nm0245359 ; Alois Dvorský ; 3 ; actor
+nm0880916 ; Asanbek Umuraliyev ; 3 ; actor
+nm0576367 ; Otar Megvinetukhutsesi ; 3 ; actor
+nm1055110 ; Julio Bianquet ; 3 ; actor
+nm0837199 ; Sudhir ; 3 ; actor
+nm0185877 ; Ivan Craig ; 3 ; actor
+nm0576495 ; Vinod Mehra ; 3 ; actor
+nm0547462 ; Jacques Marin ; 3 ; actor
+nm0474872 ; Sailesh Kumar ; 3 ; actor
+nm0598807 ; Lawrence Montaigne ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0351860 ; Sasu Haapanen ; 3 ; actor
+nm1030590 ; Takashi Hio ; 3 ; actor
+nm0698072 ; Stanton Pritchard ; 3 ; actor
+nm0150527 ; Krzysztof Chamiec ; 3 ; actor
+nm0131918 ; Paul Cammermans ; 3 ; actor
+nm0137154 ; Zarli Carigiet ; 3 ; actor
+nm0009415 ; Ariel Absalón ; 3 ; actor
+nm0001428 ; Klaus Kinski ; 3 ; actor
+nm2304330 ; José Luis Aguirre 'Trotsky' ; 3 ; actor
+nm0350764 ; René Génin ; 3 ; actor
+nm0761525 ; Dirk Sanders ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0959672 ; Enrique Ávila ; 3 ; actor
+nm0943936 ; Peter Wyngarde ; 3 ; actor
+nm0857150 ; Hilmar Thate ; 3 ; actor
+nm0932270 ; Austin Willis ; 3 ; actor
+nm0245152 ; Frédéric Duvallès ; 3 ; actor
+nm0107805 ; Bernard Bresslaw ; 3 ; actor
+nm0368836 ; Hurd Hatfield ; 3 ; actor
+nm0660440 ; Jirí Papez ; 3 ; actor
+nm0136147 ; Antony Carbone ; 3 ; actor
+nm0584858 ; Jean-Claude Michel ; 3 ; actor
+nm1251626 ; Yan Han ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0395240 ; Miroslav Hornícek ; 3 ; actor
+nm0412059 ; Mikhail Ivanov ; 3 ; actor
+nm0838042 ; Don Sullivan ; 3 ; actor
+nm0675490 ; Nehemiah Persoff ; 3 ; actor
+nm0208372 ; Luigi De Filippo ; 3 ; actor
+nm0340816 ; Vladimir Gribkov ; 3 ; actor
+nm0607558 ; Vic Morrow ; 3 ; actor
+nm0214136 ; Yuri Dedovich ; 3 ; actor
+nm0929057 ; Robert J. Wilke ; 3 ; actor
+nm0233506 ; Johnny Dorelli ; 3 ; actor
+nm0617832 ; Rolf Möbius ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm2736991 ; Hachirô Kasuga ; 3 ; actor
+nm0070911 ; Svatopluk Benes ; 3 ; actor
+nm0659822 ; Vasa Pantelic ; 3 ; actor
+nm0431275 ; Ljubisa Jovanovic ; 3 ; actor
+nm0458047 ; Ingvar Kjellson ; 3 ; actor
+nm0176754 ; Pat Conway ; 3 ; actor
+nm0378420 ; Li-Jen Ho ; 3 ; actor
+nm1467174 ; Aleksandr Mikhaylov ; 3 ; actor
+nm0031889 ; Sugisaku Aoyama ; 3 ; actor
+nm0177815 ; Franco Coop ; 3 ; actor
+nm0011824 ; Georg Adelly ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0747083 ; Kanu Roy ; 3 ; actor
+nm0000015 ; James Dean ; 3 ; actor
+nm0464052 ; Kálmán Koletár ; 3 ; actor
+nm0569000 ; Darren McGavin ; 3 ; actor
+nm0453006 ; Richard Kiley ; 3 ; actor
+nm0084761 ; Björn Bjelfvenstam ; 3 ; actor
+nm2820635 ; Miguel Fleta ; 3 ; actor
+nm0198556 ; Eskil Dalenius ; 3 ; actor
+nm0060023 ; Alfie Bass ; 3 ; actor
+nm0363515 ; John Harmon ; 3 ; actor
+nm0941660 ; Brian Worth ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0764077 ; Fernando Santos ; 3 ; actor
+nm0290295 ; Robert Francis ; 3 ; actor
+nm0045454 ; Szczepan Baczynski ; 3 ; actor
+nm0729157 ; Rafael Rivelles ; 3 ; actor
+nm0249490 ; Fella Edmonds ; 3 ; actor
+nm0450467 ; Zygmunt Kestowicz ; 3 ; actor
+nm0046785 ; Silvio Bagolini ; 3 ; actor
+nm0584266 ; Dario Michaelis ; 3 ; actor
+nm0241523 ; Douglass Dumbrille ; 3 ; actor
+nm0614217 ; Donald Murphy ; 3 ; actor
+nm0731507 ; Roy Roberts ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0016220 ; Rafael Albaicín ; 3 ; actor
+nm0311165 ; Lauro Gazzolo ; 3 ; actor
+nm0491406 ; John Laurie ; 3 ; actor
+nm0908647 ; George D. Wallace ; 3 ; actor
+nm0219528 ; Nick Dennis ; 3 ; actor
+nm0345140 ; Gustl Gstettenbaur ; 3 ; actor
+nm0706546 ; Arne Ragneborn ; 3 ; actor
+nm0152159 ; Billy Chapin ; 3 ; actor
+nm9497542 ; Chung-Kuei Chen ; 3 ; actor
+nm8999023 ; Jiufang Li ; 3 ; actor
+nm2420768 ; Cheng Chiang ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm2071801 ; Arturo de Castille ; 3 ; actor
+nm4846889 ; Willem Loots ; 3 ; actor
+nm0249644 ; Nekohachi Edoya ; 3 ; actor
+nm2338499 ; Meng Ning ; 3 ; actor
+nm5551869 ; Baptist Fernando ; 3 ; actor
+nm0438175 ; Dmitriy Kapka ; 3 ; actor
+nm3203685 ; Mang Topo ; 3 ; actor
+nm0912568 ; Richard Warner ; 3 ; actor
+nm3055213 ; Wahid Chan ; 3 ; actor
+nm1863547 ; Leung Go ; 3 ; actor
+nm6818113 ; Shigeru Aoki ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm4680972 ; Yun-lung Liu ; 3 ; actor
+nm1788916 ; Ying Lee ; 3 ; actor
+nm0765783 ; Isao Sasaki ; 3 ; actor
+nm2075987 ; Jiyun Liu ; 3 ; actor
+nm1794251 ; Jack Altenbay ; 3 ; actor
+nm0521634 ; Ralph Loubser ; 3 ; actor
+nm0886486 ; Dawid van der Walt ; 3 ; actor
+nm2823778 ; Pabo Zapata ; 3 ; actor
+nm1393133 ; Dhananjoy Bhattacharya ; 3 ; actor
+nm1420658 ; Kazi Khaliq ; 3 ; actor
+nm1289008 ; Ziyue Zhao ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0757959 ; Abdel Khalek Saleh ; 3 ; actor
+nm11234984 ; Abdollah Khorraami ; 3 ; actor
+nm0854994 ; Fehmi Tengiz ; 3 ; actor
+nm1324877 ; Hua Fang ; 3 ; actor
+nm1271900 ; Hongda Guan ; 3 ; actor
+nm1280136 ; Yin Liang ; 3 ; actor
+nm1254630 ; Jingbo Li ; 3 ; actor
+nm2898575 ; Abdulmunem Ismail ; 3 ; actor
+nm2931962 ; Toros Peshtmalchian ; 3 ; actor
+nm1252270 ; Fei Lu ; 3 ; actor
+nm1204750 ; Ömer Faruk ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0368021 ; Zackaria Hashemi ; 3 ; actor
+nm1670476 ; Munir Mourad ; 3 ; actor
+nm1128126 ; Sam Choi ; 3 ; actor
+nm0474461 ; Konstantin Kulchitsky ; 3 ; actor
+nm1138069 ; Su-min Seong ; 3 ; actor
+nm1403014 ; Mustarjo ; 3 ; actor
+nm0707947 ; Ramakrishna ; 3 ; actor
+nm0046844 ; Mehmet Bahadir ; 3 ; actor
+nm8596037 ; S. Rama Rao ; 3 ; actor
+nm0868182 ; Stavros Tornes ; 3 ; actor
+nm0634011 ; Idris Nogajbayev ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0180569 ; Sergio Corona ; 3 ; actor
+nm1131932 ; Nellikode Bhaskaran ; 3 ; actor
+nm0476731 ; Ivan Kuznetsov ; 3 ; actor
+nm3259882 ; Jagathi N.K. Achari ; 3 ; actor
+nm0831640 ; Kirill Stolyarov ; 3 ; actor
+nm1797117 ; Tung-Kua Ai ; 3 ; actor
+nm0561427 ; Aggelos Mavropoulos ; 3 ; actor
+nm0274421 ; Procópio Ferreira ; 3 ; actor
+nm7671192 ; Wu Guan ; 3 ; actor
+nm0016715 ; Carlos Alberto ; 3 ; actor
+nm0432242 ; Randal Juliano ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm2956557 ; Fei-Fei Chao ; 3 ; actor
+nm0299802 ; Ernst Fritz Fürbringer ; 3 ; actor
+nm1291318 ; Balys Bratkauskas ; 3 ; actor
+nm1050576 ; Kurt Steingraf ; 3 ; actor
+nm0799478 ; Bogomil Simeonov ; 3 ; actor
+nm0313899 ; Jim Gérald ; 3 ; actor
+nm0056438 ; Lucien Baroux ; 3 ; actor
+nm0868496 ; Totoy Torrente ; 3 ; actor
+nm1662092 ; Sôzaburô Kikuchi ; 3 ; actor
+nm0409518 ; Giannis Ioannidis ; 3 ; actor
+nm1184362 ; Babloo ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0957372 ; Velimir 'Bata' Zivojinovic ; 3 ; actor
+nm0122529 ; Robert Burnier ; 3 ; actor
+nm0707430 ; Arkady Raykin ; 3 ; actor
+nm0069319 ; Charles Belmont ; 3 ; actor
+nm0584191 ; Pierre Michaël ; 3 ; actor
+nm0275182 ; Giannis Fertis ; 3 ; actor
+nm0017491 ; Norman Alden ; 3 ; actor
+nm0212470 ; Francis De Wolff ; 3 ; actor
+nm0843059 ; Eric Sykes ; 3 ; actor
+nm0499361 ; Alfredo Leggi ; 3 ; actor
+nm0678284 ; Miodrag Petrovic-Ckalja ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0400142 ; Henri-Jacques Huet ; 3 ; actor
+nm0468651 ; Wladyslaw Kowalski ; 3 ; actor
+nm0096844 ; Lev Borisov ; 3 ; actor
+nm0211306 ; Reed De Rouen ; 3 ; actor
+nm0919010 ; Heinz Weiss ; 3 ; actor
+nm0717130 ; Wolfgang Reichmann ; 3 ; actor
+nm1638411 ; Mishra ; 3 ; actor
+nm0449403 ; Reginald Kernan ; 3 ; actor
+nm0845729 ; Volmer Sørensen ; 3 ; actor
+nm0298502 ; James Westmoreland ; 3 ; actor
+nm0464922 ; Ivan Kondov ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0763803 ; Santo ; 3 ; actor
+nm0643832 ; Dragan Ocokoljic ; 3 ; actor
+nm0041466 ; Jacques Aubuchon ; 3 ; actor
+nm0584194 ; Ralph Michael ; 3 ; actor
+nm0220388 ; Joe DeRita ; 3 ; actor
+nm0520437 ; Jack Lord ; 3 ; actor
+nm0002035 ; Sammy Davis Jr. ; 3 ; actor
+nm0003499 ; Victor Brooks ; 3 ; actor
+nm0668037 ; Bronislaw Pawlik ; 3 ; actor
+nm0086706 ; Robert Blake ; 3 ; actor
+nm0624567 ; Hermann Nehlsen ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0009567 ; Félix Acaso ; 3 ; actor
+nm0866264 ; Yuriy Tolubeev ; 3 ; actor
+nm0675714 ; Mark Pertsovskiy ; 3 ; actor
+nm0179754 ; Rafael Corés ; 3 ; actor
+nm0375873 ; Michael Heltau ; 3 ; actor
+nm0791543 ; Giorgi Shengelaia ; 3 ; actor
+nm0063619 ; John Beal ; 3 ; actor
+nm0329828 ; David Gorcey ; 3 ; actor
+nm0387218 ; Josef Hlinomaz ; 3 ; actor
+nm0084595 ; Boris Bityukov ; 3 ; actor
+nm0214529 ; Don DeFore ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0516742 ; Harry Locke ; 3 ; actor
+nm0034456 ; Ricardo Argemí ; 3 ; actor
+nm0001904 ; Corey Allen ; 3 ; actor
+nm0487292 ; Mario Lanza ; 3 ; actor
+nm0274120 ; Paolo Ferrari ; 3 ; actor
+nm0490187 ; Gino Latilla ; 3 ; actor
+nm0784718 ; José Sepúlveda ; 3 ; actor
+nm0635931 ; John Norrman ; 3 ; actor
+nm0949241 ; Alan Young ; 3 ; actor
+nm0258919 ; Hermann Erhardt ; 3 ; actor
+nm0459340 ; Karps Kletnieks ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0491471 ; Gino Leurini ; 3 ; actor
+nm0604605 ; Dennis Morgan ; 3 ; actor
+nm0345510 ; Leonid Gubanov ; 3 ; actor
+nm0080876 ; Leopold Biberti ; 3 ; actor
+nm0102946 ; Bernard Braden ; 3 ; actor
+nm0272432 ; Frank Ferguson ; 3 ; actor
+nm0899441 ; Olavi Virta ; 3 ; actor
+nm0271929 ; George Fenneman ; 3 ; actor
+nm0201833 ; René Dary ; 3 ; actor
+nm0737670 ; Eero Roine ; 3 ; actor
+nm0896065 ; Jorge Vico ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0414746 ; Kjeld Jacobsen ; 3 ; actor
+nm0876947 ; Enzo Turco ; 3 ; actor
+nm0370821 ; Richard Haydn ; 3 ; actor
+nm0763492 ; Walter Santesso ; 3 ; actor
+nm0892989 ; José Venegas 'El Bronco' ; 3 ; actor
+nm0959845 ; Curt 'Minimal' Åström ; 3 ; actor
+nm0770612 ; Fredy Scheim ; 3 ; actor
+nm0386470 ; Elroy 'Crazylegs' Hirsch ; 3 ; actor
+nm0245104 ; Christian Duvaleix ; 3 ; actor
+nm0634090 ; Fernando Nogueras ; 3 ; actor
+nm0351405 ; János Görbe ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0788288 ; Harry Shannon ; 3 ; actor
+nm0615278 ; Stephen Murray ; 3 ; actor
+nm0000024 ; John Gielgud ; 3 ; actor
+nm0768574 ; José Sazatornil ; 3 ; actor
+nm1812454 ; Chinook ; 3 ; actor
+nm0008496 ; Walter Abel ; 3 ; actor
+nm0183900 ; Chuck Courtney ; 3 ; actor
+nm0708165 ; Povel Ramel ; 3 ; actor
+nm0125626 ; Gino Buzzanca ; 3 ; actor
+nm10099017 ; Tadamasa Inagawa ; 3 ; actor
+nm9873989 ; Vivek ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0683793 ; Ping-Ou Wei ; 3 ; actor
+nm0556319 ; Kyôsuke Machida ; 3 ; actor
+nm0707342 ; Rajan ; 3 ; actor
+nm0063131 ; Gabriel Bayman ; 3 ; actor
+nm3730380 ; Tulsi Chatterjee ; 3 ; actor
+nm1731969 ; Shunji Kubo ; 3 ; actor
+nm3450110 ; Masashi Maki ; 3 ; actor
+nm1851472 ; Jimmy Lin Chong ; 3 ; actor
+nm9149796 ; Mohideen Baig ; 3 ; actor
+nm3392021 ; B.K. Eshwarappa ; 3 ; actor
+nm2945937 ; Irah ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm3177603 ; Chaidir Sakti ; 3 ; actor
+nm3062849 ; Salim Hamid ; 3 ; actor
+nm0008739 ; Zainal Abidin ; 3 ; actor
+nm4598799 ; Tsi-Pak Leung ; 3 ; actor
+nm8780658 ; Ayako Ebata ; 3 ; actor
+nm2780685 ; Pablo Virtuoso ; 3 ; actor
+nm1734797 ; Gorô Kawabe ; 3 ; actor
+nm1144805 ; San'emon Arashi ; 3 ; actor
+nm0370655 ; Shôtarô Hayashi ; 3 ; actor
+nm10670691 ; Ryotaro Oki ; 3 ; actor
+nm2645089 ; Shane Gunaratne ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm2959786 ; Wu-Chieh Chang ; 3 ; actor
+nm0462182 ; Makoto Kobori ; 3 ; actor
+nm2009798 ; Boy Sta. Romana ; 3 ; actor
+nm0490988 ; Hugo Laur ; 3 ; actor
+nm3128102 ; Jaco van der Westhuizen ; 3 ; actor
+nm1184557 ; Abdollah Butimar ; 3 ; actor
+nm0094089 ; Evgeniy Bondarenko ; 3 ; actor
+nm0411751 ; Takashi Itô ; 3 ; actor
+nm2793910 ; Ali Parvaneh ; 3 ; actor
+nm1438255 ; Erdogan Çakici ; 3 ; actor
+nm2900576 ; Abdel Moneim Bassioni ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm1110775 ; Haluk Sarici ; 3 ; actor
+nm0756870 ; Tatsuo Saitô ; 3 ; actor
+nm1159860 ; Chun-yeok Nam ; 3 ; actor
+nm1136666 ; Gye-shik Kang ; 3 ; actor
+nm0591075 ; Miroslav Mindov ; 3 ; actor
+nm1135648 ; Myeong-su Choi ; 3 ; actor
+nm1137004 ; Tae-gyun Lee ; 3 ; actor
+nm0015147 ; Sitki Akçatepe ; 3 ; actor
+nm0678086 ; Stasis Petronaitis ; 3 ; actor
+nm0691345 ; Nikola Popov ; 3 ; actor
+nm0307404 ; Emilio Garibay ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm1904006 ; Prem Navaz ; 3 ; actor
+nm6321066 ; Ananth Kumar ; 3 ; actor
+nm0788242 ; T.K. Shanmugham ; 3 ; actor
+nm2700093 ; Abbas Ajmeri ; 3 ; actor
+nm0311731 ; Gogi Gegechkori ; 3 ; actor
+nm1032887 ; Mimis Stefanakos ; 3 ; actor
+nm0813541 ; Yury Solovyov ; 3 ; actor
+nm0430772 ; Jose Prakash ; 3 ; actor
+nm0133314 ; Ricardo Campos ; 3 ; actor
+nm2401791 ; Hang Lee ; 3 ; actor
+nm1972070 ; Chung Chou ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm1282887 ; Ping To ; 3 ; actor
+nm0130719 ; Jaime Calpe ; 3 ; actor
+nm0022855 ; Nuri Altinok ; 3 ; actor
+nm7062791 ; Shu-Ming Chang ; 3 ; actor
+nm11403424 ; Atilla Engin ; 3 ; actor
+nm0160675 ; Liakos Hristogiannopoulos ; 3 ; actor
+nm1366376 ; Masaharu Arikawa ; 3 ; actor
+nm0368049 ; Ichirô Nakatani ; 3 ; actor
+nm1000882 ; Stefan Gadularov ; 3 ; actor
+nm0422392 ; Evgeniy Evstigneev ; 3 ; actor
+nm0747671 ; Jaroslav Rozsíval ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0385668 ; Frazer Hines ; 3 ; actor
+nm0955314 ; Abid Dshalilov ; 3 ; actor
+nm0340377 ; Ludovít Gresso ; 3 ; actor
+nm9945764 ; Kazuo Honda ; 3 ; actor
+nm0226146 ; Ernst Diesen ; 3 ; actor
+nm0471438 ; Gopi Krishna ; 3 ; actor
+nm0201912 ; Sukhen Das ; 3 ; actor
+nm0291987 ; Michel François ; 3 ; actor
+nm0451311 ; Salim Khan ; 3 ; actor
+nm0049336 ; Sundaram Balachander ; 3 ; actor
+nm0137751 ; Francisco Carlos ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0411186 ; Ishwarlal ; 3 ; actor
+nm0660329 ; Kostas Papas ; 3 ; actor
+nm0137734 ; Antônio Carlos ; 3 ; actor
+nm0698866 ; Vangelis Protopappas ; 3 ; actor
+nm0514995 ; Qiong Liu ; 3 ; actor
+nm0388474 ; Willie Hoel ; 3 ; actor
+nm0292433 ; William Frawley ; 3 ; actor
+nm0159878 ; Per Christensen ; 3 ; actor
+nm0196476 ; Pierre Dac ; 3 ; actor
+nm0477093 ; Chun Yang ; 3 ; actor
+nm0709503 ; Cestmír Randa ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0355246 ; Arch Hall Jr. ; 3 ; actor
+nm0352050 ; Hannjo Hasse ; 3 ; actor
+nm0768640 ; Giancarlo Sbragia ; 3 ; actor
+nm0708967 ; Bill Ramsey ; 3 ; actor
+nm0960320 ; Jens Østerholm ; 3 ; actor
+nm0001995 ; George Chakiris ; 3 ; actor
+nm0381961 ; John Hewer ; 3 ; actor
+nm0831259 ; Aleksandar Stojkovic ; 3 ; actor
+nm0000886 ; Warren Beatty ; 3 ; actor
+nm0818433 ; Renato Speziali ; 3 ; actor
+nm0000564 ; Peter O'Toole ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0734597 ; Walter Roderer ; 3 ; actor
+nm0147338 ; Jules Cazaban ; 3 ; actor
+nm0025629 ; Vijay Anand ; 3 ; actor
+nm0575625 ; Luis Medina Castro ; 3 ; actor
+nm0228718 ; Robert Dix ; 3 ; actor
+nm0763852 ; Espartaco Santoni ; 3 ; actor
+nm0652689 ; Hiroyuki Ôta ; 3 ; actor
+nm0673405 ; Viktor Perevalov ; 3 ; actor
+nm0685782 ; Sacha Pitoëff ; 3 ; actor
+nm0164153 ; Ken Clark ; 3 ; actor
+nm3729845 ; Kôichi Fujiyama ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0643960 ; Michel Odekerken ; 3 ; actor
+nm0509586 ; Karl Lieffen ; 3 ; actor
+nm0357550 ; Maxim Hamel ; 3 ; actor
+nm0937143 ; John Witty ; 3 ; actor
+nm0658522 ; Ricardo Palmerola ; 3 ; actor
+nm0005348 ; Carl Reiner ; 3 ; actor
+nm0952914 ; Alessandro Zane ; 3 ; actor
+nm0147204 ; Robert Cawdron ; 3 ; actor
+nm0123699 ; Robert Burton ; 3 ; actor
+nm0564724 ; David McCallum ; 3 ; actor
+nm0683984 ; Phillip Pine ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0176260 ; Steve Conte ; 3 ; actor
+nm0359874 ; Petr Hanicinec ; 3 ; actor
+nm0358069 ; Murray Hamilton ; 3 ; actor
+nm0411699 ; Jerry Itô ; 3 ; actor
+nm0065975 ; Don Beddoe ; 3 ; actor
+nm0172937 ; Ignazio Colnaghi ; 3 ; actor
+nm0083081 ; Edward Binns ; 3 ; actor
+nm0831905 ; Harold J. Stone ; 3 ; actor
+nm0000197 ; Jack Nicholson ; 3 ; actor
+nm0470088 ; Alfredo Kraus ; 3 ; actor
+nm0819455 ; Franco Sportelli ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0948685 ; Dick York ; 3 ; actor
+nm0841214 ; Lev Sverdlin ; 3 ; actor
+nm0038504 ; Oszkár Ascher ; 3 ; actor
+nm0243139 ; Nikolai Dupak ; 3 ; actor
+nm0394438 ; William Hopper ; 3 ; actor
+nm1670956 ; Bin Yagisawa ; 3 ; actor
+nm0278510 ; Fiorenzo Fiorentini ; 3 ; actor
+nm0609748 ; Marcel Mouloudji ; 3 ; actor
+nm0077921 ; Julien Bertheau ; 3 ; actor
+nm0231874 ; Francisco Pablo Donadio ; 3 ; actor
+nm0944297 ; Harry Wüstenhagen ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0913248 ; John Warwick ; 3 ; actor
+nm0050163 ; Michael Balfour ; 3 ; actor
+nm0168538 ; Constantin Codrescu ; 3 ; actor
+nm0133668 ; Raúl Cancio ; 3 ; actor
+nm0001181 ; Jack Elam ; 3 ; actor
+nm0117269 ; Paul Bryar ; 3 ; actor
+nm0946263 ; Mikhail Yanshin ; 3 ; actor
+nm0732750 ; Joe Robinson ; 3 ; actor
+nm1965123 ; Keiji Aoyama ; 3 ; actor
+nm0028321 ; Franco Andrei ; 3 ; actor
+nm0258757 ; Richard Erdman ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0087316 ; Pepe Blanco ; 3 ; actor
+nm0587061 ; Bernard Miles ; 3 ; actor
+nm0762271 ; Luis Sandrini ; 3 ; actor
+nm0776458 ; Fritz Schulz ; 3 ; actor
+nm0672857 ; Nicolás D. Perchicot ; 3 ; actor
+nm0289376 ; Eddie Foy Jr. ; 3 ; actor
+nm0799014 ; Phil Silvers ; 3 ; actor
+nm0722836 ; Curado Ribeiro ; 3 ; actor
+nm0419198 ; Stanislaw Jasiukiewicz ; 3 ; actor
+nm0312374 ; Emmanuil Geller ; 3 ; actor
+nm0044141 ; Mariano Azaña ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0118480 ; Per Buckhøj ; 3 ; actor
+nm0516876 ; Gene Lockhart ; 3 ; actor
+nm0588922 ; Marvin Miller ; 3 ; actor
+nm0064896 ; Gino Bechi ; 3 ; actor
+nm0072753 ; Galeazzo Benti ; 3 ; actor
+nm0446343 ; Don Kelly ; 3 ; actor
+nm0763941 ; Manuel Santos Carvalho ; 3 ; actor
+nm1041229 ; Jerry Pons ; 3 ; actor
+nm5538407 ; Jamie de la Rosa ; 3 ; actor
+nm4583493 ; André Huguenet ; 3 ; actor
+nm0648275 ; Kil-son Om ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm2604710 ; Tomio Hanano ; 3 ; actor
+nm1322738 ; Hesen En ; 3 ; actor
+nm0955441 ; Yi Zhang ; 3 ; actor
+nm3121134 ; Takehiko Kayama ; 3 ; actor
+nm8801024 ; Huanguang Huang ; 3 ; actor
+nm9251636 ; Saqi ; 3 ; actor
+nm0272960 ; Eddie Fernandez ; 3 ; actor
+nm0793089 ; Arata Shibata ; 3 ; actor
+nm5223665 ; Satay Wahid ; 3 ; actor
+nm0412514 ; Hanshirô Iwai ; 3 ; actor
+nm2908362 ; Koishi Kimi ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm2646001 ; Tilakasiri Fernando ; 3 ; actor
+nm3922717 ; Shui-Sheng Li ; 3 ; actor
+nm3315524 ; The Reycards Duet ; 3 ; actor
+nm2233836 ; Rey Ruiz ; 3 ; actor
+nm0757826 ; Paquito Salcedo ; 3 ; actor
+nm3042809 ; Frank Gordon ; 3 ; actor
+nm0439726 ; Kaarel Karm ; 3 ; actor
+nm2781160 ; Abbas Mehrdadian ; 3 ; actor
+nm0392915 ; Abdolali Homayoon ; 3 ; actor
+nm0619326 ; Gholamhossein Naghshineh ; 3 ; actor
+nm1029890 ; Ahamd El-Haddad ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm1106721 ; Afif Yesari ; 3 ; actor
+nm1281448 ; Lie Tian ; 3 ; actor
+nm0643136 ; George Obadiah ; 3 ; actor
+nm0714626 ; Mohamed Reda ; 3 ; actor
+nm0540898 ; David Malyan ; 3 ; actor
+nm1289385 ; Qi Wang ; 3 ; actor
+nm2693724 ; Metawee Eweiss ; 3 ; actor
+nm0714625 ; Mahmoud Reda ; 3 ; actor
+nm0725329 ; Otmar Richter ; 3 ; actor
+nm0159115 ; Sok-Yang Choo ; 3 ; actor
+nm1302335 ; Ivan Shatillo ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0457860 ; Hakki Kivanç ; 3 ; actor
+nm0873398 ; Ladislav Trojan ; 3 ; actor
+nm0879621 ; Riza Tüzün ; 3 ; actor
+nm0467507 ; Andrei Kostrichkin ; 3 ; actor
+nm0451892 ; Shakib Khouri ; 3 ; actor
+nm0955480 ; Nurmukhan Zhanturin ; 3 ; actor
+nm0301452 ; Grigoriy Gay ; 3 ; actor
+nm1531910 ; Imdad Hussain ; 3 ; actor
+nm1149262 ; Keiji Itami ; 3 ; actor
+nm3116039 ; Alfreds Jaunusans ; 3 ; actor
+nm1171116 ; Chandrakant ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0802370 ; Ramesh Sinha ; 3 ; actor
+nm0052329 ; Haradhan Bannerjee ; 3 ; actor
+nm0131898 ; Jan Cammans ; 3 ; actor
+nm0935025 ; Carsten Winger ; 3 ; actor
+nm1874401 ; Qi Luo ; 3 ; actor
+nm0664809 ; Mario Passano ; 3 ; actor
+nm0793338 ; Kôji Shitara ; 3 ; actor
+nm3240814 ; Sha Chin ; 3 ; actor
+nm0435919 ; Dimitris Kallivokas ; 3 ; actor
+nm1073801 ; Takis Varlamos ; 3 ; actor
+nm6263675 ; Satoshi Komori ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0022681 ; Juan Carlos Altavista ; 3 ; actor
+nm0082639 ; Jacques Bilodeau ; 3 ; actor
+nm0622637 ; Georgi Naumov ; 3 ; actor
+nm0012905 ; Aliagha Aghayev ; 3 ; actor
+nm0130025 ; Puiu Calinescu ; 3 ; actor
+nm0436189 ; Georgi Kaloyanchev ; 3 ; actor
+nm0911289 ; Christopher Warbey ; 3 ; actor
+nm0861726 ; Juan Carlos Thorry ; 3 ; actor
+nm0890305 ; Akaki Vasadze ; 3 ; actor
+nm4510835 ; Lev Zhukov ; 3 ; actor
+nm0154138 ; Moni Chatterjee ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0097871 ; Harimohan Bose ; 3 ; actor
+nm0154128 ; Haridhan Mukherjee ; 3 ; actor
+nm0053580 ; Michel Barbey ; 3 ; actor
+nm0080279 ; P. Bhaskaran ; 3 ; actor
+nm0902749 ; Rolf von Nauckhoff ; 3 ; actor
+nm0436159 ; Mihalis Kalogiannis ; 3 ; actor
+nm0509700 ; Werner Lierck ; 3 ; actor
+nm0657018 ; Ivica Pajer ; 3 ; actor
+nm0612568 ; Francesco Mulè ; 3 ; actor
+nm0365835 ; Richard Harrison ; 3 ; actor
+nm0062820 ; Stanley Baxter ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0125909 ; Rolan Bykov ; 3 ; actor
+nm1778768 ; Karel Pech ; 3 ; actor
+nm0018093 ; Christian Alers ; 3 ; actor
+nm0844274 ; István Sztankay ; 3 ; actor
+nm0473005 ; Panteleymon Krymov ; 3 ; actor
+nm0265693 ; Adam Faith ; 3 ; actor
+nm0251208 ; Gerd Ehlers ; 3 ; actor
+nm0162948 ; Franco Citti ; 3 ; actor
+nm0746358 ; Óscar Rovito ; 3 ; actor
+nm0524468 ; Enrique Lucero ; 3 ; actor
+nm0691780 ; Jean-François Poron ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0850825 ; Luis Tasca ; 3 ; actor
+nm0619075 ; Frank Nagai ; 3 ; actor
+nm0586977 ; Ilija Milcin ; 3 ; actor
+nm0601146 ; Duke Moore ; 3 ; actor
+nm0024460 ; Mario Ambrosino ; 3 ; actor
+nm0566584 ; Myron McCormick ; 3 ; actor
+nm0378807 ; Leszek Herdegen ; 3 ; actor
+nm0162597 ; Dario Cipani ; 3 ; actor
+nm0561867 ; Andrzej May ; 3 ; actor
+nm0719049 ; Stanislav Remunda ; 3 ; actor
+nm0945566 ; Ken Yamauchi ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0670591 ; Manuel Peiró ; 3 ; actor
+nm0529543 ; Jean-Pierre Léaud ; 3 ; actor
+nm0798328 ; Henry Silva ; 3 ; actor
+nm0620092 ; Tadao Nakamaru ; 3 ; actor
+nm0015014 ; Andor Ajtay ; 3 ; actor
+nm0666881 ; John Paul ; 3 ; actor
+nm0456565 ; Tommy Kirk ; 3 ; actor
+nm0410982 ; Shintarô Ishihara ; 3 ; actor
+nm0229415 ; Mariusz Dmochowski ; 3 ; actor
+nm0424565 ; Ben Johnson ; 3 ; actor
+nm0579400 ; Carlos Mendy ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0003225 ; Ed Begley ; 3 ; actor
+nm0337754 ; Danny Green ; 3 ; actor
+nm0000842 ; Martin Balsam ; 3 ; actor
+nm0302972 ; Leonid Gallis ; 3 ; actor
+nm0618280 ; Raidar Müller-Elmau ; 3 ; actor
+nm0930539 ; Emlyn Williams ; 3 ; actor
+nm0111610 ; Claudio Brook ; 3 ; actor
+nm0426363 ; Tor Johnson ; 3 ; actor
+nm0646418 ; Kurt Oligmüller ; 3 ; actor
+nm0392067 ; Taylor Holmes ; 3 ; actor
+nm0059706 ; Cesco Baseggio ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0796830 ; Joost Siedhoff ; 3 ; actor
+nm0459206 ; Kosti Klemelä ; 3 ; actor
+nm0150148 ; Cyril Chamberlain ; 3 ; actor
+nm0798855 ; Jay Silverheels ; 3 ; actor
+nm0282632 ; Albert Florath ; 3 ; actor
+nm0376415 ; Douglas Henderson ; 3 ; actor
+nm0681608 ; Paul Picerni ; 3 ; actor
+nm0813539 ; Vladimir Solovyov ; 3 ; actor
+nm0600552 ; Heinz Moog ; 3 ; actor
+nm0691728 ; Giuseppe Porelli ; 3 ; actor
+nm0232019 ; James Donald ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0884332 ; Leopoldo Valentini ; 3 ; actor
+nm0153205 ; John Charlesworth ; 3 ; actor
+nm0198954 ; Vic Damone ; 3 ; actor
+nm0920987 ; John Wengraf ; 3 ; actor
+nm0082178 ; Paul Bildt ; 3 ; actor
+nm0418079 ; Walter Janssen ; 3 ; actor
+nm0830752 ; Werner Stock ; 3 ; actor
+nm0066166 ; Alfonso Bedoya ; 3 ; actor
+nm0796222 ; Stefano Sibaldi ; 3 ; actor
+nm0376264 ; Paul Henckels ; 3 ; actor
+nm0477787 ; Eduard Köck ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0115452 ; David Bruce ; 3 ; actor
+nm0715235 ; Brian Reece ; 3 ; actor
+nm0209956 ; Giorgio De Lullo ; 3 ; actor
+nm0741394 ; George Rose ; 3 ; actor
+nm0261565 ; Alfonso Estela ; 3 ; actor
+nm0409272 ; Daisuke Inoue ; 3 ; actor
+nm0344358 ; Valentin Grudinin ; 3 ; actor
+nm5524982 ; Teihô Ichiryûsai ; 3 ; actor
+nm0673311 ; Anthony C. Perera ; 3 ; actor
+nm0046852 ; Barchi Bahdur ; 3 ; actor
+nm3242279 ; Anwar ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm3547770 ; Chi-Pak Lan ; 3 ; actor
+nm4460478 ; Shigerô Hayashi ; 3 ; actor
+nm0999105 ; Shinji Takano ; 3 ; actor
+nm10181211 ; Haruhiko Nakagawa ; 3 ; actor
+nm0347635 ; Mitsugu Fujii ; 3 ; actor
+nm0950884 ; Itoshi Yumeji ; 3 ; actor
+nm1559697 ; You-Min Ko ; 3 ; actor
+nm2993223 ; Victor Blanco ; 3 ; actor
+nm11014441 ; Jose Corazon de Jesus Jr. ; 3 ; actor
+nm2799965 ; Mohammad Ali Sakhi ; 3 ; actor
+nm8697058 ; Keiko Yuge ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0256061 ; Ibrahim Emarah ; 3 ; actor
+nm2407344 ; Rodolfo Ruiz ; 3 ; actor
+nm1662168 ; Kôtarô Nirei ; 3 ; actor
+nm1327213 ; Naihua Jin ; 3 ; actor
+nm0620730 ; D.R. Nanayakkara ; 3 ; actor
+nm1172961 ; Shesha Palihakkara ; 3 ; actor
+nm2233358 ; Harry Giese ; 3 ; actor
+nm1271778 ; Botang Fu ; 3 ; actor
+nm1253873 ; Fengxiang Zhang ; 3 ; actor
+nm1254868 ; Chunmian Yu ; 3 ; actor
+nm1326259 ; Sadan Adanali ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm1125364 ; Orhan Boran ; 3 ; actor
+nm1300242 ; Mukhamejan Kasymov ; 3 ; actor
+nm0586872 ; Assen Milanov ; 3 ; actor
+nm1390842 ; Shôsei Mutô ; 3 ; actor
+nm1403003 ; Malik Sutan Muda ; 3 ; actor
+nm0798181 ; Vladimir Siluyanov ; 3 ; actor
+nm0149433 ; Chadalavada ; 3 ; actor
+nm0683487 ; Muthukulam Raghavan Pillai ; 3 ; actor
+nm0839286 ; Sung-dae Park ; 3 ; actor
+nm0765346 ; Phani Sarma ; 3 ; actor
+nm1195689 ; Munshi Munakka ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm1522292 ; Harijs Avens ; 3 ; actor
+nm0022639 ; Altaf ; 3 ; actor
+nm0405818 ; Peter Höfer ; 3 ; actor
+nm0190232 ; Alejandro Cruz ; 3 ; actor
+nm1130562 ; Arun Sarnaik ; 3 ; actor
+nm1648744 ; Vivek ; 3 ; actor
+nm0327991 ; Alberto González Rubio ; 3 ; actor
+nm1249511 ; Aleksei Bunin ; 3 ; actor
+nm0351702 ; Chun Chau Ha ; 3 ; actor
+nm0175961 ; Renato Consorte ; 3 ; actor
+nm1148336 ; Ismayil Dagistanli ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm1241608 ; Aleksandr Kistov ; 3 ; actor
+nm0599407 ; Américo Montero ; 3 ; actor
+nm0161942 ; José Cibrián ; 3 ; actor
+nm10750102 ; Siu-Keung Chui ; 3 ; actor
+nm0207071 ; José De Angelis ; 3 ; actor
+nm0736178 ; Norman Rodway ; 3 ; actor
+nm1352422 ; Biman Bannerjee ; 3 ; actor
+nm0630294 ; Roger Nicolas ; 3 ; actor
+nm1261144 ; Krishnadhan Mukherjee ; 3 ; actor
+nm0630847 ; Jakob Nielsen ; 3 ; actor
+nm0803999 ; Lakis Skellas ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0176446 ; Nacho Contla ; 3 ; actor
+nm0361730 ; Kôshirô Harada ; 3 ; actor
+nm0121855 ; Samson Burke ; 3 ; actor
+nm0288975 ; Rolf Olsen ; 3 ; actor
+nm0451657 ; Stanislav Khitrov ; 3 ; actor
+nm0375783 ; Osvald Helmuth ; 3 ; actor
+nm0501471 ; Michel Lemoine ; 3 ; actor
+nm0827137 ; Robert Stephens ; 3 ; actor
+nm0417582 ; Dusan Janicijevic ; 3 ; actor
+nm0162524 ; Ilarion Ciobanu ; 3 ; actor
+nm0473393 ; Anatoliy Kubatskiy ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0594658 ; Jo Mizuki ; 3 ; actor
+nm0450138 ; William Kerwin ; 3 ; actor
+nm0476534 ; Franz Kutschera ; 3 ; actor
+nm0822403 ; Ernst Stankovski ; 3 ; actor
+nm0176773 ; Russ Conway ; 3 ; actor
+nm1254505 ; Ji Feng ; 3 ; actor
+nm2974369 ; John McKay ; 3 ; actor
+nm0412204 ; Vladimir Ivashov ; 3 ; actor
+nm0291593 ; Leo Franklyn ; 3 ; actor
+nm0732468 ; Chris Robinson ; 3 ; actor
+nm0734521 ; Ebbe Rode ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0252345 ; Bengt Ekerot ; 3 ; actor
+nm0726569 ; Jean Rigaux ; 3 ; actor
+nm0238274 ; Bernard Droog ; 3 ; actor
+nm0188536 ; Max Croiset ; 3 ; actor
+nm0033014 ; Stojan 'Stole' Arandjelovic ; 3 ; actor
+nm0067871 ; Radu Beligan ; 3 ; actor
+nm0619821 ; Taketoshi Naitô ; 3 ; actor
+nm0375307 ; Fritz Heller ; 3 ; actor
+nm0696481 ; Robert Preston ; 3 ; actor
+nm0085021 ; Hugo Björne ; 3 ; actor
+nm0045226 ; Salvatore Baccaloni ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0386542 ; Robert Hirsch ; 3 ; actor
+nm0550855 ; E.G. Marshall ; 3 ; actor
+nm0079600 ; Mario Beut ; 3 ; actor
+nm0522759 ; Marijan Lovric ; 3 ; actor
+nm0758818 ; Vladimir Salnikov ; 3 ; actor
+nm0590398 ; Martin Milner ; 3 ; actor
+nm0043875 ; Felix Aylmer ; 3 ; actor
+nm0704020 ; Tony Quinn ; 3 ; actor
+nm0318641 ; Claes Gill ; 3 ; actor
+nm0476537 ; Rolf Kutschera ; 3 ; actor
+nm0839888 ; Aleksandr Susnin ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0519274 ; John Longden ; 3 ; actor
+nm0648410 ; Aleksandre Omiadze ; 3 ; actor
+nm0883465 ; Jece Valadão ; 3 ; actor
+nm0465383 ; Pyotr Konstantinov ; 3 ; actor
+nm0804519 ; Albin Skoda ; 3 ; actor
+nm0753997 ; Willy Rösner ; 3 ; actor
+nm0693166 ; Lojze Potokar ; 3 ; actor
+nm0073660 ; Yefim Berezin ; 3 ; actor
+nm0534280 ; Duncan Macrae ; 3 ; actor
+nm0675727 ; Jon Pertwee ; 3 ; actor
+nm0529376 ; Leonid Lyubashevsky ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0915614 ; Naunton Wayne ; 3 ; actor
+nm0826749 ; Karel Stepanek ; 3 ; actor
+nm3370318 ; Umakant ; 3 ; actor
+nm0103815 ; Erico Braga ; 3 ; actor
+nm0519420 ; Germano Longo ; 3 ; actor
+nm0049836 ; Franco Balducci ; 3 ; actor
+nm0565887 ; Sean McClory ; 3 ; actor
+nm0406120 ; Herbert Hübner ; 3 ; actor
+nm0018886 ; Roland Alexandre ; 3 ; actor
+nm0219666 ; Reginald Denny ; 3 ; actor
+nm0515907 ; Harold Lloyd Jr. ; 3 ; actor
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0449410 ; George Keymas ; 3 ; actor
+nm0405529 ; Ekke Hämäläinen ; 3 ; actor
+nm0159726 ; Bent Christensen ; 3 ; actor
+nm0197168 ; Gus Dahlström ; 3 ; actor
+nm0078805 ; Vilém Besser ; 3 ; actor
+nm0112203 ; Rand Brooks ; 3 ; actor
+nm0653580 ; Brian Oulton ; 3 ; actor
+nm0628579 ; Robert Newton ; 3 ; actor
+nm0054263 ; Mariemma Bardi ; 3 ; actress
+nm0580916 ; Una Merkel ; 3 ; actress
+nm0587900 ; Ann Miller ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0022283 ; Trini Alonso ; 3 ; actress
+nm0332028 ; Ellen Gottschalch ; 3 ; actress
+nm0603314 ; Nonna Mordyukova ; 3 ; actress
+nm0283004 ; Barbara Florian ; 3 ; actress
+nm0411667 ; Eija Karipää ; 3 ; actress
+nm0453785 ; Anne Kimbell ; 3 ; actress
+nm0847408 ; Sanae Takasugi ; 3 ; actress
+nm0631182 ; Senni Nieminen ; 3 ; actress
+nm0590771 ; Milú ; 3 ; actress
+nm0250271 ; Penny Edwards ; 3 ; actress
+nm0134411 ; Judy Canova ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0042264 ; Margrit Aust ; 3 ; actress
+nm0002141 ; Celeste Holm ; 3 ; actress
+nm0591034 ; Esther Minciotti ; 3 ; actress
+nm0546901 ; Irene Marhold ; 3 ; actress
+nm0896015 ; Martha Vickers ; 3 ; actress
+nm0958258 ; Véronique Zuber ; 3 ; actress
+nm0952606 ; Hanna Zembrzuska ; 3 ; actress
+nm0788080 ; Sara Shane ; 3 ; actress
+nm0901870 ; Susanne von Almassy ; 3 ; actress
+nm0323711 ; Claude Godard ; 3 ; actress
+nm0538423 ; Tamara Makarova ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0752211 ; Sif Ruud ; 3 ; actress
+nm0310762 ; Git Gay ; 3 ; actress
+nm0157105 ; Sofiko Chiaureli ; 3 ; actress
+nm0663562 ; Leslie Parrish ; 3 ; actress
+nm0285576 ; Constance Ford ; 3 ; actress
+nm0773723 ; Betty Schneider ; 3 ; actress
+nm0814615 ; Teija Sopanen ; 3 ; actress
+nm0008705 ; Doris Abeßer ; 3 ; actress
+nm0026035 ; Luana Anders ; 3 ; actress
+nm0663678 ; Natasha Parry ; 3 ; actress
+nm0852674 ; Joyce Taylor ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0403781 ; Angelika Hurwicz ; 3 ; actress
+nm0900143 ; Monica Vitti ; 3 ; actress
+nm0103769 ; Paula Braend ; 3 ; actress
+nm0632079 ; Nilofar ; 3 ; actress
+nm4465175 ; Shinako Nakagawa ; 3 ; actress
+nm0092009 ; Blanka Bohdanová ; 3 ; actress
+nm0611538 ; Madhavi Mukherjee ; 3 ; actress
+nm1172912 ; Friedel Nowack ; 3 ; actress
+nm0545378 ; Corinne Marchand ; 3 ; actress
+nm0210298 ; Danielle De Metz ; 3 ; actress
+nm0687886 ; Dusa Pockaj ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0062882 ; Andrea Bayard ; 3 ; actress
+nm0653780 ; Lyusena Ovchinnikova ; 3 ; actress
+nm0339565 ; Christina Gregg ; 3 ; actress
+nm0638198 ; Tarja Nurmi ; 3 ; actress
+nm0586220 ; Yumiko Mihara ; 3 ; actress
+nm0900568 ; Rena Vlahopoulou ; 3 ; actress
+nm0280086 ; Zoi Fytousi ; 3 ; actress
+nm0053873 ; Marga Barbu ; 3 ; actress
+nm0347888 ; Nina Gulyaeva ; 3 ; actress
+nm1799067 ; Sabita Basu ; 3 ; actress
+nm0496543 ; Inda Ledesma ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm1285330 ; Diana Arias ; 3 ; actress
+nm0599237 ; Norma Monteiro ; 3 ; actress
+nm0958053 ; Voula Zouboulaki ; 3 ; actress
+nm2461605 ; Li Chu ; 3 ; actress
+nm0892681 ; Ludy Veloso ; 3 ; actress
+nm4032898 ; Yin Chang ; 3 ; actress
+nm1917807 ; Ping Kau ; 3 ; actress
+nm0127881 ; Sara Cabrera ; 3 ; actress
+nm0144720 ; Alba Castellanos ; 3 ; actress
+nm6449036 ; Keiko Fukami ; 3 ; actress
+nm3440221 ; Chuan-Chuan Chen ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0112716 ; Mary Brouillard ; 3 ; actress
+nm0207557 ; Nini De Boël ; 3 ; actress
+nm0032551 ; Sudha Apte ; 3 ; actress
+nm0337380 ; Nina Grebeshkova ; 3 ; actress
+nm0009777 ; Indira Acharya ; 3 ; actress
+nm1252684 ; Ozel Turkbas ; 3 ; actress
+nm0495776 ; Lebleba ; 3 ; actress
+nm0631659 ; Terumi Niki ; 3 ; actress
+nm1253687 ; Danfeng Wang ; 3 ; actress
+nm4429678 ; Soodabeh ; 3 ; actress
+nm1091244 ; Utako Shibusawa ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm8127156 ; Sima ; 3 ; actress
+nm0721378 ; Norma Reyes ; 3 ; actress
+nm2714186 ; Sonia Reyes ; 3 ; actress
+nm4351846 ; Yu-Hsia Ko ; 3 ; actress
+nm2720089 ; Lillian Leonardo ; 3 ; actress
+nm0402209 ; Hung Pai ; 3 ; actress
+nm2780575 ; Sukarsih ; 3 ; actress
+nm2833070 ; Maria Theresa ; 3 ; actress
+nm3462892 ; Hsueh Hsiao ; 3 ; actress
+nm12758036 ; Sita Jayawardena ; 3 ; actress
+nm4588571 ; Hettie Uys ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0473441 ; Eva Kubesová ; 3 ; actress
+nm0649828 ; Vanja Orico ; 3 ; actress
+nm0744243 ; Luisa Rossi ; 3 ; actress
+nm0756679 ; Renée Saint-Cyr ; 3 ; actress
+nm6721384 ; Olga Kusenko ; 3 ; actress
+nm0634488 ; Claude Nollier ; 3 ; actress
+nm0790167 ; Linda Sini ; 3 ; actress
+nm0432987 ; Emmi Jurkka ; 3 ; actress
+nm0479229 ; Rakel Laakso ; 3 ; actress
+nm0178137 ; Jeanne Cooper ; 3 ; actress
+nm0753216 ; Ulla-Carin Rydén ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0116073 ; Gabrielle Brune ; 3 ; actress
+nm0476614 ; Armi Kuusela ; 3 ; actress
+nm0848315 ; Alix Talton ; 3 ; actress
+nm0921309 ; Mara Werlen ; 3 ; actress
+nm0297404 ; Encarnita Fuentes ; 3 ; actress
+nm1533442 ; Yuko Yashio ; 3 ; actress
+nm0800386 ; Simone Simon ; 3 ; actress
+nm0159600 ; Vlasta Chramostová ; 3 ; actress
+nm0199070 ; Leora Dana ; 3 ; actress
+nm0238679 ; Svetlana Druzhinina ; 3 ; actress
+nm0499165 ; Marga Legal ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0247339 ; Marilee Earle ; 3 ; actress
+nm3057595 ; Setsuko Hama ; 3 ; actress
+nm0656712 ; Janis Paige ; 3 ; actress
+nm0848768 ; Akiko Tamura ; 3 ; actress
+nm0019145 ; Lidia Alfonsi ; 3 ; actress
+nm0676151 ; Maria Petar ; 3 ; actress
+nm0411769 ; Yumi Itô ; 3 ; actress
+nm0949538 ; Felicity Young ; 3 ; actress
+nm0925794 ; Billie Whitelaw ; 3 ; actress
+nm0767954 ; Iya Savvina ; 3 ; actress
+nm0449111 ; Elzbieta Kepinska ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0031061 ; Violeta Antier ; 3 ; actress
+nm0890248 ; Rosy Varte ; 3 ; actress
+nm0303070 ; María Rosa Gallo ; 3 ; actress
+nm8979578 ; Kawthar Ramzy ; 3 ; actress
+nm0617585 ; Monique Mélinand ; 3 ; actress
+nm0518627 ; Beba Loncar ; 3 ; actress
+nm0254882 ; Jacqueline Ellis ; 3 ; actress
+nm0022263 ; Pola Alonso ; 3 ; actress
+nm0824985 ; Ledia Stefanidou ; 3 ; actress
+nm0866643 ; Liliana Tomescu ; 3 ; actress
+nm2719616 ; Tara ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0764927 ; Martine Sarcey ; 3 ; actress
+nm0719232 ; Line Renaud ; 3 ; actress
+nm1050689 ; Lída Vendlová ; 3 ; actress
+nm0154436 ; Padma Chavan ; 3 ; actress
+nm0369741 ; Libuse Havelková ; 3 ; actress
+nm0304984 ; Joly Garbi ; 3 ; actress
+nm0603577 ; Diana Morel ; 3 ; actress
+nm0754032 ; Vigdis Røising ; 3 ; actress
+nm1873929 ; Kusum Thakur ; 3 ; actress
+nm0663234 ; Paro ; 3 ; actress
+nm0031699 ; Anwari ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0651211 ; María Cristina Ortiz ; 3 ; actress
+nm1119895 ; Kadriye Tuna ; 3 ; actress
+nm0313245 ; Iclal Genç ; 3 ; actress
+nm0862606 ; Muadelet Tibet ; 3 ; actress
+nm1299102 ; Fengxia Du ; 3 ; actress
+nm10049268 ; Nadia El Shennawy ; 3 ; actress
+nm1560509 ; Mahin Moavenzadeh ; 3 ; actress
+nm2174765 ; Aring Bautista ; 3 ; actress
+nm1180311 ; Diana ; 3 ; actress
+nm1800326 ; Lulu Kruger ; 3 ; actress
+nm2957623 ; Dolly Garcia ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm1303176 ; Man Huang ; 3 ; actress
+nm0737385 ; Ada Rogovtseva ; 3 ; actress
+nm4712800 ; Hsiu-Yun Chiang ; 3 ; actress
+nm0034884 ; Masako Arisawa ; 3 ; actress
+nm12758064 ; Nancy Dias ; 3 ; actress
+nm0656183 ; Geraldine Page ; 3 ; actress
+nm0631723 ; Nina Nikitina ; 3 ; actress
+nm0489821 ; Inger Lassen ; 3 ; actress
+nm0339307 ; Charlotte Greenwood ; 3 ; actress
+nm0476880 ; Vera Kuznetsova ; 3 ; actress
+nm0636759 ; Eva Nova ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0174029 ; Fay Compton ; 3 ; actress
+nm0041438 ; Cécile Aubry ; 3 ; actress
+nm0095804 ; Shirley Booth ; 3 ; actress
+nm0094388 ; Liliana Bonfatti ; 3 ; actress
+nm0828523 ; K.T. Stevens ; 3 ; actress
+nm0443135 ; Mary Ellen Kay ; 3 ; actress
+nm0863204 ; Jane Tilden ; 3 ; actress
+nm0286553 ; Rosita Fornés ; 3 ; actress
+nm0944123 ; Lidia Wysocka ; 3 ; actress
+nm0476874 ; Marina Kuznetsova ; 3 ; actress
+nm0386113 ; Barbro Hiort af Ornäs ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0142588 ; Tina Carver ; 3 ; actress
+nm0419849 ; Gloria Jean ; 3 ; actress
+nm0395538 ; María de los Ángeles Hortelano ; 3 ; actress
+nm0432314 ; Montserrat Julió ; 3 ; actress
+nm0124604 ; Maruja Bustos ; 3 ; actress
+nm0480784 ; Patricia Laffan ; 3 ; actress
+nm0216177 ; Suzy Delair ; 3 ; actress
+nm1371661 ; Jaroslava Panýrková ; 3 ; actress
+nm0895713 ; Maria Teresa Vianello ; 3 ; actress
+nm0395126 ; Penelope Horner ; 3 ; actress
+nm0939872 ; Mary Laura Wood ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0315639 ; Lica Gheorghiu ; 3 ; actress
+nm0674012 ; Millie Perkins ; 3 ; actress
+nm0812172 ; Gisella Sofio ; 3 ; actress
+nm0884932 ; María del Valle ; 3 ; actress
+nm0935792 ; Margrit Winter ; 3 ; actress
+nm0078598 ; Maria Besendahl ; 3 ; actress
+nm0910322 ; Nancy Walters ; 3 ; actress
+nm1160730 ; Hisano Yamaoka ; 3 ; actress
+nm0659717 ; Aleksandra Panova ; 3 ; actress
+nm0948772 ; Susannah York ; 3 ; actress
+nm0174283 ; Celia Conde ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0904638 ; Hédi Váradi ; 3 ; actress
+nm0884157 ; Barbara Valentin ; 3 ; actress
+nm0484952 ; Avice Landone ; 3 ; actress
+nm0346614 ; Ruma Guha Thakurta ; 3 ; actress
+nm0174308 ; Patricia Conde ; 3 ; actress
+nm3760823 ; Kwan-Lin Lai ; 3 ; actress
+nm0668734 ; Mary Peach ; 3 ; actress
+nm0894024 ; Serena Vergano ; 3 ; actress
+nm1410354 ; Parveen Choudhary ; 3 ; actress
+nm0409066 ; Diana Ingro ; 3 ; actress
+nm10047188 ; Bu-suk Choe ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0795002 ; Rimma Shorokhova ; 3 ; actress
+nm6720414 ; Kaori Fuji ; 3 ; actress
+nm1946307 ; Olga Bgan ; 3 ; actress
+nm0603991 ; Inés Moreno ; 3 ; actress
+nm0510901 ; Jiao Lin ; 3 ; actress
+nm0480538 ; Alexandra Ladikou ; 3 ; actress
+nm0889785 ; Amelia Vargas ; 3 ; actress
+nm0855536 ; Miriam Teresa ; 3 ; actress
+nm1973177 ; Baozhen Wang ; 3 ; actress
+nm0081112 ; Beba Bidart ; 3 ; actress
+nm0367370 ; Masumi Harukawa ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm1977714 ; Xiyun Wang ; 3 ; actress
+nm0617143 ; Jacqueline Myrna ; 3 ; actress
+nm4735444 ; Lai-Lai Chang ; 3 ; actress
+nm0772661 ; Aglaja Schmid ; 3 ; actress
+nm0468025 ; Mariana Kourakou ; 3 ; actress
+nm0172360 ; Jackie Collins ; 3 ; actress
+nm0765221 ; Sarimah ; 3 ; actress
+nm0905571 ; Hansa Wadkar ; 3 ; actress
+nm2602388 ; Hung Chiang ; 3 ; actress
+nm0836783 ; Margo Su ; 3 ; actress
+nm0051647 ; Mária Bancíková ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm1786395 ; Tina Misquitta ; 3 ; actress
+nm0710086 ; Martha Rangel ; 3 ; actress
+nm0959596 ; Sofía Álvarez ; 3 ; actress
+nm0411513 ; Esperanza Issa ; 3 ; actress
+nm0222488 ; Sarita Devi ; 3 ; actress
+nm11060041 ; Mehrangiz Vahdat ; 3 ; actress
+nm8784634 ; Karima ; 3 ; actress
+nm2182322 ; Letty Alonzo ; 3 ; actress
+nm1958301 ; Fidela Magpayo ; 3 ; actress
+nm1799618 ; Misae Enomoto ; 3 ; actress
+nm1044840 ; Norma Blancaflor ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm1834070 ; Amelita Sol ; 3 ; actress
+nm2174930 ; Ched Bermudez ; 3 ; actress
+nm10416109 ; Midori Ejima ; 3 ; actress
+nm1550079 ; Chiyoko Komine ; 3 ; actress
+nm2902695 ; Carolina Herranz ; 3 ; actress
+nm6517522 ; Ming Lai ; 3 ; actress
+nm5342446 ; Bei Wang ; 3 ; actress
+nm7731380 ; Sumire Harukaze ; 3 ; actress
+nm4581608 ; Trudie Rossouw ; 3 ; actress
+nm1800329 ; Yukie Kubo ; 3 ; actress
+nm4836967 ; Ying Chung ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm1407818 ; Michiko Sakyô ; 3 ; actress
+nm0186700 ; Anne Crawford ; 3 ; actress
+nm0433201 ; Ursula Justin ; 3 ; actress
+nm0637661 ; Jacqueline Noëlle ; 3 ; actress
+nm0143230 ; Kathleen Case ; 3 ; actress
+nm0544711 ; Adele Mara ; 3 ; actress
+nm0661117 ; Mari Carmen Pardo ; 3 ; actress
+nm0047440 ; Pearl Bailey ; 3 ; actress
+nm0407186 ; Carmen Ignarra ; 3 ; actress
+nm0471123 ; Dorit Kreysler ; 3 ; actress
+nm0916764 ; Tania Weber ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0730344 ; Gale Robbins ; 3 ; actress
+nm0056270 ; Lita Baron ; 3 ; actress
+nm0366245 ; Diane Hart ; 3 ; actress
+nm0587684 ; Marjie Millar ; 3 ; actress
+nm1381041 ; Maya Mukherjee ; 3 ; actress
+nm0889813 ; Dolores Vargas ; 3 ; actress
+nm0806058 ; Olive Sloane ; 3 ; actress
+nm0275587 ; Kveta Fialová ; 3 ; actress
+nm0705225 ; Laya Raki ; 3 ; actress
+nm0617771 ; Ági Mészáros ; 3 ; actress
+nm0687978 ; Nelli Podgornaya ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0156001 ; Lyudmila Chernyshyova ; 3 ; actress
+nm0665171 ; Maria Pastukhova ; 3 ; actress
+nm0588767 ; Kristine Miller ; 3 ; actress
+nm0076595 ; Lynette Bernay ; 3 ; actress
+nm0812694 ; Silvia Solar ; 3 ; actress
+nm0861345 ; Sybil Thorndike ; 3 ; actress
+nm0526181 ; Jana Lund ; 3 ; actress
+nm0896035 ; Yvette Vickers ; 3 ; actress
+nm0534991 ; Leigh Madison ; 3 ; actress
+nm1546690 ; Helena Makowska ; 3 ; actress
+nm0857979 ; Valentina Thielová ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0805115 ; Zofia Slaboszowska ; 3 ; actress
+nm0030788 ; Elfie von Kalckreuth ; 3 ; actress
+nm0045921 ; Nicole Badal ; 3 ; actress
+nm0062968 ; Veronika Bayer ; 3 ; actress
+nm0312353 ; Maria Gella ; 3 ; actress
+nm0089358 ; Florence Blot ; 3 ; actress
+nm0714915 ; Juli Reding ; 3 ; actress
+nm0260884 ; Núria Espert ; 3 ; actress
+nm2188177 ; Yoshiko Nezu ; 3 ; actress
+nm0575552 ; Kay Medford ; 3 ; actress
+nm0205202 ; Monica Davis ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0520873 ; Susanne Loret ; 3 ; actress
+nm0549150 ; Carla Marlier ; 3 ; actress
+nm0002088 ; Annette Funicello ; 3 ; actress
+nm3379796 ; Beena ; 3 ; actress
+nm0323405 ; Dorothee Parker ; 3 ; actress
+nm0954217 ; Dusica Zegarac ; 3 ; actress
+nm0375606 ; Anne Helm ; 3 ; actress
+nm0207821 ; Lucy de Carvalho ; 3 ; actress
+nm0001771 ; Stella Stevens ; 3 ; actress
+nm0715081 ; Moira Redmond ; 3 ; actress
+nm0841377 ; Libuse Svormová ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0892936 ; Magali Vendeuil ; 3 ; actress
+nm0199363 ; Mathilde Danegger ; 3 ; actress
+nm0745905 ; Jenny Roussea ; 3 ; actress
+nm0422932 ; La Prieta Linda ; 3 ; actress
+nm4510426 ; Keiko Kawakami ; 3 ; actress
+nm0222480 ; Reba Devi ; 3 ; actress
+nm0389332 ; Mona Hofland ; 3 ; actress
+nm0878486 ; Jaroslava Tvrzníková ; 3 ; actress
+nm0592354 ; Bela Mirianashvili ; 3 ; actress
+nm0836584 ; Despoina Stylianopoulou ; 3 ; actress
+nm0159724 ; Bab Christensen ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0559608 ; Kazuko Matsuo ; 3 ; actress
+nm0440375 ; Shizuko Kasagi ; 3 ; actress
+nm0680934 ; Yannick Philouze ; 3 ; actress
+nm0660787 ; Tijen Par ; 3 ; actress
+nm1404385 ; Yin Chiang ; 3 ; actress
+nm0194919 ; Celia D'Alarcón ; 3 ; actress
+nm0023184 ; Perla Alvarado ; 3 ; actress
+nm0142727 ; Kippy Casado ; 3 ; actress
+nm1388679 ; Tandra Burman ; 3 ; actress
+nm3116601 ; Astrida Gulbe ; 3 ; actress
+nm0313033 ; Conchita Gentil Arcos ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0008724 ; Dawlat Abiad ; 3 ; actress
+nm0658227 ; Eva Palmer ; 3 ; actress
+nm12495664 ; Sabah Amari ; 3 ; actress
+nm0436395 ; Surabhi Kamalabai ; 3 ; actress
+nm1402478 ; Aini Jasmin ; 3 ; actress
+nm1327531 ; Tatik Maliyati ; 3 ; actress
+nm1217165 ; Nina Mager ; 3 ; actress
+nm2416815 ; Advani Lakshmi Devi ; 3 ; actress
+nm0619204 ; Nagat ; 3 ; actress
+nm2860629 ; Purita Alma ; 3 ; actress
+nm2747071 ; Maria Cristina ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0215859 ; Rosa Del Rosario ; 3 ; actress
+nm2098340 ; Rooplaxmi ; 3 ; actress
+nm1833971 ; Corazon Noble ; 3 ; actress
+nm1422438 ; Metring David ; 3 ; actress
+nm2893141 ; Lina Prieto ; 3 ; actress
+nm1307985 ; Elena Mayo ; 3 ; actress
+nm2707985 ; Po Chin ; 3 ; actress
+nm8454553 ; Yin Chen ; 3 ; actress
+nm1665758 ; Kyôko Mine ; 3 ; actress
+nm3142735 ; Wen-Wen Cheng ; 3 ; actress
+nm1800745 ; Satoko Minami ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm5999008 ; Lan-Hing Tam ; 3 ; actress
+nm2817124 ; Marietta Miranda ; 3 ; actress
+nm3422143 ; Mimi Mariani ; 3 ; actress
+nm0040257 ; Sachiko Atami ; 3 ; actress
+nm1514719 ; Jaymala Adarsh ; 3 ; actress
+nm5229785 ; Mathilde Hanekom ; 3 ; actress
+nm0098497 ; Emsie Botha ; 3 ; actress
+nm4492214 ; Keiko Azuma ; 3 ; actress
+nm0180192 ; Ingeborg Cornelius ; 3 ; actress
+nm0464695 ; Juci Komlós ; 3 ; actress
+nm0848445 ; Franca Tamantini ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0314507 ; Mary Germaine ; 3 ; actress
+nm0927733 ; Sonja Wigert ; 3 ; actress
+nm0656226 ; Joy Page ; 3 ; actress
+nm0201005 ; Denise Darcel ; 3 ; actress
+nm0464027 ; Irena Kolesar ; 3 ; actress
+nm0890609 ; Vera Vasileva ; 3 ; actress
+nm0000781 ; Eve Arden ; 3 ; actress
+nm0516994 ; Margaret Lockwood ; 3 ; actress
+nm0286692 ; Sally Forrest ; 3 ; actress
+nm0150718 ; Marge Champion ; 3 ; actress
+nm0781883 ; Gianna Segale ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0550267 ; Donatella Marrosu ; 3 ; actress
+nm0079012 ; Barbara Bestar ; 3 ; actress
+nm0181348 ; Célia Cortez ; 3 ; actress
+nm0872300 ; Annika Tretow ; 3 ; actress
+nm1263552 ; Netty Herawati ; 3 ; actress
+nm0666332 ; Neva Patterson ; 3 ; actress
+nm0260854 ; Elena Espejo ; 3 ; actress
+nm0794595 ; Karina Shmarinova ; 3 ; actress
+nm0161864 ; Eloisa Cianni ; 3 ; actress
+nm0396881 ; Renee Houston ; 3 ; actress
+nm0306605 ; Annie Birgit Garde ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0843163 ; Claude Sylvain ; 3 ; actress
+nm0761951 ; Gunvor Sandkvist ; 3 ; actress
+nm0848174 ; Nadine Tallier ; 3 ; actress
+nm0439998 ; Svetlana Karpinskaya ; 3 ; actress
+nm0674540 ; Gigi Perreau ; 3 ; actress
+nm0066228 ; Molly Bee ; 3 ; actress
+nm0202766 ; Maureen Hingert ; 3 ; actress
+nm0878778 ; Beverly Tyler ; 3 ; actress
+nm0652304 ; Nana Osten ; 3 ; actress
+nm0890215 ; Diane Varsi ; 3 ; actress
+nm0559642 ; Tsukie Matsuura ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0758188 ; María Rosa Salgado ; 3 ; actress
+nm0646527 ; Nadia Haro Oliva ; 3 ; actress
+nm0481383 ; Vicky Lagos ; 3 ; actress
+nm0878273 ; Teresa Tuszynska ; 3 ; actress
+nm0774622 ; Christina Schollin ; 3 ; actress
+nm0199618 ; Emma Danieli ; 3 ; actress
+nm0067938 ; Tatjana Beljakova ; 3 ; actress
+nm0417923 ; Alina Janowska ; 3 ; actress
+nm0902265 ; Loni von Friedl ; 3 ; actress
+nm0127061 ; Marita Böhme ; 3 ; actress
+nm0451454 ; Svetlana Kharitonova ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0707644 ; Pola Raksa ; 3 ; actress
+nm0828368 ; Dorinda Stevens ; 3 ; actress
+nm0955707 ; Svetlana Zhivankova ; 3 ; actress
+nm0320758 ; Michèle Girardon ; 3 ; actress
+nm0346141 ; Consuelo Guerrero de Luna ; 3 ; actress
+nm0612614 ; Mumtaz Askari ; 3 ; actress
+nm0187341 ; Hannelore Cremer ; 3 ; actress
+nm0545156 ; Marina Marcel ; 3 ; actress
+nm1114085 ; Larisa Gordeichik ; 3 ; actress
+nm0461711 ; Elsebet Knudsen ; 3 ; actress
+nm0873859 ; Gisela Trowe ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0173085 ; Elina Colomer ; 3 ; actress
+nm1233931 ; Kika Poli ; 3 ; actress
+nm0889565 ; Ingerid Vardund ; 3 ; actress
+nm0510379 ; Lillian ; 3 ; actress
+nm0149846 ; Lily Chakravarty ; 3 ; actress
+nm1425401 ; Terje Luik ; 3 ; actress
+nm0027911 ; Veriko Anjaparidze ; 3 ; actress
+nm0238428 ; Mikaela Drozdovskaya ; 3 ; actress
+nm0592498 ; Mariya Mironova ; 3 ; actress
+nm0270214 ; Lidiya Fedoseeva-Shukshina ; 3 ; actress
+nm1011942 ; María Esther Podestá ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0847033 ; Miwa Takada ; 3 ; actress
+nm0891881 ; Milagros de la Vega ; 3 ; actress
+nm0638006 ; Vera Nunes ; 3 ; actress
+nm2108469 ; Ling Mai ; 3 ; actress
+nm0380538 ; Antonia Herrero ; 3 ; actress
+nm0707444 ; Rajkumari ; 3 ; actress
+nm1428648 ; Ece Han ; 3 ; actress
+nm0324705 ; Katerina Gogou ; 3 ; actress
+nm0086979 ; Alma Blanca ; 3 ; actress
+nm0419682 ; Jayanthi ; 3 ; actress
+nm3846613 ; Vidyavathi ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0764762 ; Sharada ; 3 ; actress
+nm1413261 ; Sa'amah ; 3 ; actress
+nm2395989 ; Habsah ; 3 ; actress
+nm1083421 ; Sükran Suley ; 3 ; actress
+nm0609952 ; Laila Mourad ; 3 ; actress
+nm1164982 ; Suzan Güven ; 3 ; actress
+nm1173333 ; Monir Taslimi ; 3 ; actress
+nm6785775 ; Aynur Akin ; 3 ; actress
+nm0222454 ; Kanan Devi ; 3 ; actress
+nm1443785 ; Keiko Ogawa ; 3 ; actress
+nm9511152 ; Salwa Mahmoud ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm1597002 ; Nadia El Gendy ; 3 ; actress
+nm0758011 ; Nagwa Salem ; 3 ; actress
+nm2811647 ; Isa Riño ; 3 ; actress
+nm9241462 ; Delbar ; 3 ; actress
+nm1436990 ; Silvia Penses ; 3 ; actress
+nm7885470 ; Roya ; 3 ; actress
+nm2513322 ; Feng Chiang ; 3 ; actress
+nm1801198 ; Miemsie Retief ; 3 ; actress
+nm0784013 ; Tamaki Katori ; 3 ; actress
+nm2824689 ; Dadang Ortega ; 3 ; actress
+nm2386820 ; Rumiko Komachi ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm3046145 ; Miyako Tachibana ; 3 ; actress
+nm2668413 ; Indiati Iskak ; 3 ; actress
+nm2876193 ; Sonia Velez ; 3 ; actress
+nm9967867 ; Sun-Young Kim ; 3 ; actress
+nm11141207 ; Michiko Sawamura ; 3 ; actress
+nm0037059 ; Amparo Arozamena ; 3 ; actress
+nm0596384 ; Mayuri Mokushô ; 3 ; actress
+nm0490404 ; Tina Lattanzi ; 3 ; actress
+nm0495816 ; Yvette Lebon ; 3 ; actress
+nm0890256 ; Toini Vartiainen ; 3 ; actress
+nm0312891 ; Irene Genna ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0466671 ; Lidia Korsakówna ; 3 ; actress
+nm0533367 ; Mary Mackenzie ; 3 ; actress
+nm0426764 ; Margaret Johnston ; 3 ; actress
+nm0243890 ; Anita Durante ; 3 ; actress
+nm0375154 ; Mai-Brit Heljo ; 3 ; actress
+nm1139449 ; Inés Fernández ; 3 ; actress
+nm0182250 ; Mary Costa ; 3 ; actress
+nm0651331 ; Kirsti Ortola ; 3 ; actress
+nm0157097 ; Sofiya Giatsintova ; 3 ; actress
+nm0034320 ; Elke Arendt ; 3 ; actress
+nm0761339 ; Serena Sande ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0936115 ; Estelle Winwood ; 3 ; actress
+nm0027633 ; Birgitta Andersson ; 3 ; actress
+nm0344311 ; Zdena Gruberová ; 3 ; actress
+nm3976002 ; Noriko Katsuma ; 3 ; actress
+nm0121051 ; Flavia Buref ; 3 ; actress
+nm0895216 ; Nina Veselovskaya ; 3 ; actress
+nm0543350 ; Patricia Manning ; 3 ; actress
+nm0473109 ; Ewa Krzyzewska ; 3 ; actress
+nm0887684 ; Nina van Pallandt ; 3 ; actress
+nm0671186 ; Pina Pellicer ; 3 ; actress
+nm0786780 ; Athene Seyler ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0586328 ; Mikaela ; 3 ; actress
+nm0868350 ; Nuria Torray ; 3 ; actress
+nm0117863 ; Maria Grazia Buccella ; 3 ; actress
+nm0000839 ; Ina Balin ; 3 ; actress
+nm0949033 ; Mari Yoshimura ; 3 ; actress
+nm5624025 ; Man-Ha Cheng ; 3 ; actress
+nm0231702 ; Angelica Domröse ; 3 ; actress
+nm0880521 ; Liv Ullmann ; 3 ; actress
+nm0451693 ; Valentina Khmara ; 3 ; actress
+nm0004309 ; Shirley Knight ; 3 ; actress
+nm0691487 ; Silvia Popovici ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0849863 ; Tanuja Samarth ; 3 ; actress
+nm0437701 ; Haruko Wanibuchi ; 3 ; actress
+nm0513193 ; Katia Linta ; 3 ; actress
+nm0222460 ; Maya Devi ; 3 ; actress
+nm0080391 ; Adoor Bhawani ; 3 ; actress
+nm0070618 ; Michaela Bendova ; 3 ; actress
+nm0944273 ; Marianne Wünscher ; 3 ; actress
+nm1982848 ; Mei-Wah Yu ; 3 ; actress
+nm5647133 ; Bo-Ying Lee ; 3 ; actress
+nm3427349 ; So-Kam Leung ; 3 ; actress
+nm0032162 ; Zeta Apostolou ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0499482 ; Silvia Legrand ; 3 ; actress
+nm0522130 ; Margot Louro ; 3 ; actress
+nm0532142 ; Zezé Macedo ; 3 ; actress
+nm1973724 ; Yunhua Chen ; 3 ; actress
+nm0131282 ; Dolores Camarillo ; 3 ; actress
+nm1264612 ; Amira Amir ; 3 ; actress
+nm1154654 ; Heyecan Basaran ; 3 ; actress
+nm2791858 ; Mina ; 3 ; actress
+nm1411054 ; Gülay Gençay ; 3 ; actress
+nm0850426 ; Oya Tari ; 3 ; actress
+nm1286851 ; Herminia Carranza ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm1394902 ; Mitos Seva ; 3 ; actress
+nm2053808 ; Li Sha ; 3 ; actress
+nm2997937 ; Lan Pai ; 3 ; actress
+nm3524610 ; Hung Mu ; 3 ; actress
+nm0476433 ; Toshie Kusunoki ; 3 ; actress
+nm10239036 ; Fujie Igarashi ; 3 ; actress
+nm2959250 ; Doris Estrella ; 3 ; actress
+nm1671244 ; Toyo Fukuda ; 3 ; actress
+nm2935882 ; Naghma ; 3 ; actress
+nm2576430 ; Ayako Fukuda ; 3 ; actress
+nm5728294 ; Ewlin Balasuriya ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0683311 ; Rosario del Pilar ; 3 ; actress
+nm0024068 ; Blanquita Amaro ; 3 ; actress
+nm0339452 ; Jane Greer ; 3 ; actress
+nm0822492 ; Helene Stanley ; 3 ; actress
+nm0477991 ; Ingeborg Körner ; 3 ; actress
+nm0213619 ; Rosemary DeCamp ; 3 ; actress
+nm0295569 ; Helga Frier ; 3 ; actress
+nm0240024 ; Ludmilla Dudarova ; 3 ; actress
+nm0006471 ; Elsa Lanchester ; 3 ; actress
+nm0664132 ; Elli Parvo ; 3 ; actress
+nm0266073 ; Franca Faldini ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0902700 ; Irene von Meyendorff ; 3 ; actress
+nm0057092 ; Claudia Barrett ; 3 ; actress
+nm0420923 ; Megs Jenkins ; 3 ; actress
+nm0601160 ; Eileen Moore ; 3 ; actress
+nm0405904 ; Carola Höhn ; 3 ; actress
+nm0086469 ; Amanda Blake ; 3 ; actress
+nm0843284 ; Gaby Sylvia ; 3 ; actress
+nm0082121 ; Carlota Bilbao ; 3 ; actress
+nm0392855 ; Judith Holzmeister ; 3 ; actress
+nm0959931 ; Dalia Íñiguez ; 3 ; actress
+nm0546531 ; Vera Maretskaya ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0528226 ; Ana María Lynch ; 3 ; actress
+nm0869927 ; Constance Towers ; 3 ; actress
+nm0232596 ; Dolores Donlon ; 3 ; actress
+nm0076338 ; Nicole Besnard ; 3 ; actress
+nm0162134 ; Anna Ciepielewska ; 3 ; actress
+nm0650962 ; Berta Ortegosa ; 3 ; actress
+nm0849493 ; Eleanore Tanin ; 3 ; actress
+nm0000802 ; Mary Astor ; 3 ; actress
+nm0709424 ; Federica Ranchi ; 3 ; actress
+nm0764339 ; Mary Santpere ; 3 ; actress
+nm0579826 ; Nina Menshikova ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0107573 ; Eve Brent ; 3 ; actress
+nm0173898 ; Dana Comnea ; 3 ; actress
+nm0587290 ; Gordana Miletic ; 3 ; actress
+nm0001687 ; Gena Rowlands ; 3 ; actress
+nm0565556 ; Peggy McCay ; 3 ; actress
+nm0631897 ; Mira Nikolic ; 3 ; actress
+nm0782579 ; Irma Seikkula ; 3 ; actress
+nm0090376 ; Ljubinka Bobic ; 3 ; actress
+nm0087875 ; Gudula Blau ; 3 ; actress
+nm0538783 ; Antonina Maksimova ; 3 ; actress
+nm0660117 ; Éva Pap ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0828328 ; Connie Stevens ; 3 ; actress
+nm0392241 ; Maria Wachowiak ; 3 ; actress
+nm0477088 ; Nancy Kwan ; 3 ; actress
+nm0511616 ; Jos van der Linden ; 3 ; actress
+nm0528611 ; Ann Lynn ; 3 ; actress
+nm0694943 ; Vittoria Prada ; 3 ; actress
+nm0443570 ; Akiko Kazami ; 3 ; actress
+nm0623970 ; Raisa Nedashkovskaya ; 3 ; actress
+nm0527780 ; Larisa Luzhina ; 3 ; actress
+nm0928424 ; Colette Wilde ; 3 ; actress
+nm1912995 ; Mary Egipidou ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0017970 ; Tatyana Alekseeva ; 3 ; actress
+nm0294679 ; Susana Freyre ; 3 ; actress
+nm0140417 ; Suzy Carrier ; 3 ; actress
+nm0365605 ; Gillian Harrison ; 3 ; actress
+nm1248473 ; Galina Karelina ; 3 ; actress
+nm0279996 ; Zuzana Fisárková ; 3 ; actress
+nm0022132 ; América Alonso ; 3 ; actress
+nm0031928 ; Neide Aparecida ; 3 ; actress
+nm0591093 ; Hiroko Mine ; 3 ; actress
+nm0495142 ; Consuelo Leandro ; 3 ; actress
+nm2244293 ; Yee-wah Chan ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm1982676 ; Lan Man ; 3 ; actress
+nm3550031 ; Fang-fei Li ; 3 ; actress
+nm0301605 ; Rena Galani ; 3 ; actress
+nm1406541 ; Zainon Fiji ; 3 ; actress
+nm0547053 ; Mariani ; 3 ; actress
+nm0056953 ; Carolina Barret ; 3 ; actress
+nm0127883 ; Susana Cabrera ; 3 ; actress
+nm0719094 ; Bing'er Ren ; 3 ; actress
+nm13628391 ; Nazha Younes ; 3 ; actress
+nm0031467 ; Nina Antonova ; 3 ; actress
+nm1456868 ; Muazzez Bora ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm6015456 ; Yuet-Yee Cheung ; 3 ; actress
+nm0466003 ; Alev Koral ; 3 ; actress
+nm1194765 ; Mi-na Han ; 3 ; actress
+nm1031474 ; Neemat Moukhatar ; 3 ; actress
+nm0252837 ; Magda El-Khatib ; 3 ; actress
+nm1145232 ; Ragaa Al-Gidawy ; 3 ; actress
+nm1370994 ; Imane ; 3 ; actress
+nm1798905 ; Koume Akasaka ; 3 ; actress
+nm2661618 ; Leela Gupte ; 3 ; actress
+nm2519919 ; Junko Uozumi ; 3 ; actress
+nm3054635 ; Titi Savitri ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm6321067 ; Poonam Kapoor ; 3 ; actress
+nm3392268 ; Li-Hua Su ; 3 ; actress
+nm1728717 ; Kumiko Mizuhara ; 3 ; actress
+nm0716852 ; Zeb Rehman ; 3 ; actress
+nm4462655 ; Hideko Kariya ; 3 ; actress
+nm1149453 ; Noboru Kiritachi ; 3 ; actress
+nm0865590 ; Haruko Tôgô ; 3 ; actress
+nm1785052 ; Teruko Asahi ; 3 ; actress
+nm1322190 ; Grazina Balandyte ; 3 ; actress
+nm0616307 ; Evita Muñoz 'Chachita' ; 3 ; actress
+nm0930209 ; Cara Williams ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0004864 ; Nancy Reagan ; 3 ; actress
+nm0520467 ; Marjorie Lord ; 3 ; actress
+nm0792212 ; Margaret Sheridan ; 3 ; actress
+nm0920481 ; Öllegård Wellton ; 3 ; actress
+nm0913332 ; Mona Washbourne ; 3 ; actress
+nm0268225 ; Glenda Farrell ; 3 ; actress
+nm0879672 ; Mirella Uberti ; 3 ; actress
+nm0637486 ; Rita-Maria Nowotny ; 3 ; actress
+nm0107746 ; Patricia Breslin ; 3 ; actress
+nm0821043 ; Rosemarie Stack ; 3 ; actress
+nm0394365 ; Marianne Hoppe ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0120007 ; Elma Bulla ; 3 ; actress
+nm0194420 ; Friedl Czepa ; 3 ; actress
+nm0636144 ; Assi Nortia ; 3 ; actress
+nm0594727 ; Yaeko Mizutani ; 3 ; actress
+nm0626220 ; Rosalina Neri ; 3 ; actress
+nm0549237 ; Lucy Marlow ; 3 ; actress
+nm0644486 ; Lilik Hovhannisyan ; 3 ; actress
+nm0014107 ; Salmah Ahmad ; 3 ; actress
+nm0242056 ; Pamela Duncan ; 3 ; actress
+nm0328305 ; Lucy González ; 3 ; actress
+nm0639542 ; Erin O'Brien ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0236860 ; Betsy Drake ; 3 ; actress
+nm0601369 ; Joanna Moore ; 3 ; actress
+nm0207954 ; Lilián de Celis ; 3 ; actress
+nm0446279 ; Claire Kelly ; 3 ; actress
+nm0845484 ; Lena Söderblom ; 3 ; actress
+nm0076828 ; Unni Bernhoft ; 3 ; actress
+nm0145082 ; Gloria Castillo ; 3 ; actress
+nm0038025 ; Aruna ; 3 ; actress
+nm0370744 ; Nora Hayden ; 3 ; actress
+nm0561158 ; Claire Maurier ; 3 ; actress
+nm0689655 ; Ellen Pollock ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm1275497 ; Lin Er ; 3 ; actress
+nm0865063 ; Marija Tocinoski ; 3 ; actress
+nm0655848 ; Marta Padovan ; 3 ; actress
+nm0812492 ; Lyubov Sokolova ; 3 ; actress
+nm0548114 ; Marisol ; 3 ; actress
+nm0217848 ; Maly Delschaft ; 3 ; actress
+nm0657080 ; Yan Pak ; 3 ; actress
+nm0837361 ; Kin Sugai ; 3 ; actress
+nm0097802 ; Dominique Boschero ; 3 ; actress
+nm0778568 ; Edith Scob ; 3 ; actress
+nm0180556 ; Isabela Corona ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0668093 ; Katina Paxinou ; 3 ; actress
+nm0038134 ; Emma Arvizu ; 3 ; actress
+nm0216685 ; Françoise Deldick ; 3 ; actress
+nm0489598 ; Zoi Laskari ; 3 ; actress
+nm0375789 ; Katerina Helmy ; 3 ; actress
+nm0181867 ; Renée Cosima ; 3 ; actress
+nm0201252 ; Sasa Dario ; 3 ; actress
+nm0600190 ; Alicia Montoya ; 3 ; actress
+nm0660939 ; Shakuntala Paranjpye ; 3 ; actress
+nm0864403 ; Alice Tissot ; 3 ; actress
+nm1110832 ; Oya Sensev ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0275588 ; Vlasta Fialová ; 3 ; actress
+nm0463684 ; Nevena Kokanova ; 3 ; actress
+nm0326538 ; Natasa Gollová ; 3 ; actress
+nm0477492 ; Anna Kyriakou ; 3 ; actress
+nm0414687 ; Astri Jacobsen ; 3 ; actress
+nm1062344 ; Michiko Hamamura ; 3 ; actress
+nm1663898 ; Reiko Kongô ; 3 ; actress
+nm3367183 ; Hui-hung Chang ; 3 ; actress
+nm1154700 ; Micheline Bezançon ; 3 ; actress
+nm0442146 ; Famie Kaufman ; 3 ; actress
+nm0517095 ; Jean Lodge ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0010613 ; Olga Adamcíková ; 3 ; actress
+nm1125151 ; Saime Arciman ; 3 ; actress
+nm0223171 ; Sri Dewi ; 3 ; actress
+nm2506698 ; Baby Huwae ; 3 ; actress
+nm0348571 ; Aysel Gürel ; 3 ; actress
+nm1369986 ; Beyhan Akinci ; 3 ; actress
+nm0645585 ; Nevzat Okçugil ; 3 ; actress
+nm1127970 ; Gye-seon Yu ; 3 ; actress
+nm1283195 ; Tomris Hakgüder ; 3 ; actress
+nm10644099 ; Ping Chiu ; 3 ; actress
+nm0847204 ; Toyo Takahashi ; 3 ; actress
+
+ID ; Name ; MinMovieCount ; Category                                                                                                                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0947988 ; Emel Yildiz ; 3 ; actress
+nm1457821 ; Mehtap Anil ; 3 ; actress
+nm1540265 ; Nieves Manuel ; 3 ; actress
+nm1031737 ; Kyôko Ôgimachi ; 3 ; actress
+nm0788112 ; Yunzhu Shangguan ; 3 ; actress
+nm2852639 ; Ying Ying ; 3 ; actress
+nm4356858 ; Yueh-Fan Yang ; 3 ; actress
+nm4808938 ; Meena ; 3 ; actress
+nm2812860 ; Junaidah D. Harris ; 3 ; actress
+nm5077088 ; Nobu Kawaguchi ; 3 ; actress
+
+1,902 rows selected. 
+
+Elapsed: 00:00:06.269
+SQL> 
+SQL> Set timing off
+SQL> Set echo off

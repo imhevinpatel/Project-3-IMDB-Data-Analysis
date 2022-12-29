@@ -1,0 +1,205 @@
+SQL> set timing on
+SQL> column column_name format a15
+SQL> set linesize 200
+SQL> 
+SQL> --Analysis 1a
+SQL> --To find acting span of each actor/actress 
+SQL> SELECT
+  2      nb.primaryname
+  3      || ' ; '
+  4      || ( MAX(tb.startyear) - MIN(tb.startyear) ) AS "Name ; CareerSpan"
+  5  FROM
+  6      imdb00.name_basics      nb,
+  7      imdb00.title_principals tp,
+  8      imdb00.title_basics     tb
+  9  WHERE
+ 10          nb.nconst = tp.nconst
+ 11      AND tp.tconst = tb.tconst
+ 12      AND nb.nconst IN (
+ 13          SELECT
+ 14              nconst
+ 15          FROM
+ 16              imdb00.name_basics
+ 17          WHERE
+ 18              lower(primaryname) IN ( 'johnny depp', 'judy garland', 'angelina jolie', 'gary oldman' )
+ 19      )
+ 20      AND lower(tb.titletype) = 'movie'
+ 21      AND lower(tp.category) IN ( 'actor', 'actress' )
+ 22      AND tb.startyear NOT LIKE '\N'
+ 23  GROUP BY
+ 24      nb.nconst,
+ 25      nb.primaryname
+ 26  ORDER BY
+ 27      nb.primaryname;
+
+Name ; CareerSpan                                                                                                                                                                                       
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Angelina Jolie ; 26
+Gary Oldman ; 35
+Johnny Depp ; 36
+Judy Garland ; 26
+
+Elapsed: 00:00:12.998
+SQL> 
+SQL> --To find number of movies made by them in each year
+SQL> SELECT
+  2      nb.primaryname
+  3      || ' ; '
+  4      || tb.startyear
+  5      || ' ; '
+  6      || COUNT(*) AS "Name ; Year ; MovieCount"
+  7  FROM
+  8      imdb00.name_basics      nb,
+  9      imdb00.title_principals tp,
+ 10      imdb00.title_basics     tb
+ 11  WHERE
+ 12          nb.nconst = tp.nconst
+ 13      AND tp.tconst = tb.tconst
+ 14      AND nb.nconst IN (
+ 15          SELECT
+ 16              nconst
+ 17          FROM
+ 18              imdb00.name_basics
+ 19          WHERE
+ 20              lower(primaryname) IN ( 'johnny depp', 'judy garland', 'angelina jolie', 'gary oldman' )
+ 21      )
+ 22      AND lower(tb.titletype) = 'movie'
+ 23      AND lower(tp.category) IN ( 'actor', 'actress' )
+ 24      AND tb.startyear NOT LIKE '\N'
+ 25  GROUP BY
+ 26      nb.nconst,
+ 27      nb.primaryname,
+ 28      tb.startyear
+ 29  ORDER BY
+ 30      nb.primaryname,
+ 31      tb.startyear;
+
+Name ; Year ; MovieCount                                                                                                                                                                                
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Angelina Jolie ; 1995 ; 2
+Angelina Jolie ; 1996 ; 2
+Angelina Jolie ; 1997 ; 1
+Angelina Jolie ; 1998 ; 1
+Angelina Jolie ; 1999 ; 3
+Angelina Jolie ; 2000 ; 1
+Angelina Jolie ; 2001 ; 2
+Angelina Jolie ; 2002 ; 1
+Angelina Jolie ; 2003 ; 3
+Angelina Jolie ; 2004 ; 4
+Angelina Jolie ; 2005 ; 1
+
+Name ; Year ; MovieCount                                                                                                                                                                                
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Angelina Jolie ; 2006 ; 1
+Angelina Jolie ; 2007 ; 2
+Angelina Jolie ; 2008 ; 3
+Angelina Jolie ; 2010 ; 2
+Angelina Jolie ; 2011 ; 1
+Angelina Jolie ; 2014 ; 1
+Angelina Jolie ; 2015 ; 1
+Angelina Jolie ; 2016 ; 1
+Angelina Jolie ; 2019 ; 1
+Angelina Jolie ; 2021 ; 2
+Gary Oldman ; 1986 ; 1
+
+Name ; Year ; MovieCount                                                                                                                                                                                
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Gary Oldman ; 1987 ; 1
+Gary Oldman ; 1988 ; 2
+Gary Oldman ; 1989 ; 1
+Gary Oldman ; 1990 ; 2
+Gary Oldman ; 1991 ; 2
+Gary Oldman ; 1992 ; 1
+Gary Oldman ; 1993 ; 1
+Gary Oldman ; 1994 ; 2
+Gary Oldman ; 1995 ; 2
+Gary Oldman ; 1997 ; 2
+Gary Oldman ; 1998 ; 1
+
+Name ; Year ; MovieCount                                                                                                                                                                                
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Gary Oldman ; 2000 ; 1
+Gary Oldman ; 2001 ; 2
+Gary Oldman ; 2002 ; 2
+Gary Oldman ; 2003 ; 1
+Gary Oldman ; 2005 ; 1
+Gary Oldman ; 2006 ; 1
+Gary Oldman ; 2009 ; 3
+Gary Oldman ; 2010 ; 2
+Gary Oldman ; 2011 ; 2
+Gary Oldman ; 2012 ; 2
+Gary Oldman ; 2013 ; 1
+
+Name ; Year ; MovieCount                                                                                                                                                                                
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Gary Oldman ; 2014 ; 2
+Gary Oldman ; 2015 ; 2
+Gary Oldman ; 2016 ; 1
+Gary Oldman ; 2017 ; 3
+Gary Oldman ; 2018 ; 2
+Gary Oldman ; 2019 ; 3
+Gary Oldman ; 2020 ; 2
+Gary Oldman ; 2021 ; 2
+Johnny Depp ; 1984 ; 1
+Johnny Depp ; 1985 ; 1
+Johnny Depp ; 1990 ; 2
+
+Name ; Year ; MovieCount                                                                                                                                                                                
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Johnny Depp ; 1993 ; 3
+Johnny Depp ; 1994 ; 2
+Johnny Depp ; 1995 ; 2
+Johnny Depp ; 1997 ; 2
+Johnny Depp ; 1998 ; 1
+Johnny Depp ; 1999 ; 4
+Johnny Depp ; 2000 ; 2
+Johnny Depp ; 2001 ; 2
+Johnny Depp ; 2003 ; 2
+Johnny Depp ; 2004 ; 4
+Johnny Depp ; 2005 ; 2
+
+Name ; Year ; MovieCount                                                                                                                                                                                
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Johnny Depp ; 2006 ; 1
+Johnny Depp ; 2007 ; 2
+Johnny Depp ; 2009 ; 2
+Johnny Depp ; 2010 ; 2
+Johnny Depp ; 2011 ; 3
+Johnny Depp ; 2012 ; 1
+Johnny Depp ; 2013 ; 1
+Johnny Depp ; 2014 ; 1
+Johnny Depp ; 2015 ; 2
+Johnny Depp ; 2016 ; 2
+Johnny Depp ; 2017 ; 2
+
+Name ; Year ; MovieCount                                                                                                                                                                                
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Johnny Depp ; 2018 ; 4
+Johnny Depp ; 2019 ; 1
+Johnny Depp ; 2020 ; 1
+Judy Garland ; 1937 ; 1
+Judy Garland ; 1938 ; 3
+Judy Garland ; 1939 ; 2
+Judy Garland ; 1940 ; 2
+Judy Garland ; 1941 ; 3
+Judy Garland ; 1942 ; 1
+Judy Garland ; 1943 ; 2
+Judy Garland ; 1944 ; 1
+
+Name ; Year ; MovieCount                                                                                                                                                                                
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Judy Garland ; 1945 ; 2
+Judy Garland ; 1946 ; 1
+Judy Garland ; 1948 ; 2
+Judy Garland ; 1949 ; 1
+Judy Garland ; 1950 ; 1
+Judy Garland ; 1954 ; 1
+Judy Garland ; 1962 ; 1
+Judy Garland ; 1963 ; 2
+
+96 rows selected. 
+
+Elapsed: 00:00:10.597
+SQL> 
+SQL> Set timing off
+SQL> Set echo off

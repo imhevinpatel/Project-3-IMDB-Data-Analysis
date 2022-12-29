@@ -1,0 +1,80 @@
+SQL> set timing on
+SQL> column column_name format a15
+SQL> set linesize 200
+SQL> --Analysis 2
+SQL> --Actor & and Actress who did maximum movies in a particular year over the span of 10 years
+SQL> (
+  2      SELECT
+  3          nb.nconst
+  4          || ' ; '
+  5          || nb.primaryname
+  6          || ' ; '
+  7          || tb.startyear
+  8          || ' ; '
+  9          || COUNT(tb.titletype)
+ 10          || ' ; '
+ 11          || tp.category AS "ID ; Name ; Year ; MaxMovieCount ; Category"
+ 12      FROM
+ 13               imdb00.name_basics nb
+ 14          JOIN imdb00.title_principals tp ON ( nb.nconst = tp.nconst )
+ 15          JOIN imdb00.title_basics     tb ON ( tp.tconst = tb.tconst )
+ 16      WHERE
+ 17          tp.category LIKE '%actor%'
+ 18          AND tb.titletype LIKE '%movie%'
+ 19          AND tb.startyear != '\N'
+ 20          AND ( tb.startyear BETWEEN '1953' AND '1962' )
+ 21          AND tp.category = 'actor'
+ 22      GROUP BY
+ 23          nb.primaryname,
+ 24          tb.startyear,
+ 25          nb.nconst,
+ 26          tp.category
+ 27      HAVING
+ 28          COUNT(tb.titletype) >= 3
+ 29      ORDER BY
+ 30          COUNT(tb.titletype) DESC
+ 31      FETCH FIRST 1 ROW WITH TIES
+ 32  )
+ 33  UNION ALL
+ 34  (
+ 35      SELECT
+ 36          nb.nconst
+ 37          || ' ; '
+ 38          || nb.primaryname
+ 39          || ' ; '
+ 40          || tb.startyear
+ 41          || ' ; '
+ 42          || COUNT(tb.titletype)
+ 43          || ' ; '
+ 44          || tp.category AS "ID ; Name ; Year ; MaxMovieCount ; Category"
+ 45      FROM
+ 46               imdb00.name_basics nb
+ 47          JOIN imdb00.title_principals tp ON ( nb.nconst = tp.nconst )
+ 48          JOIN imdb00.title_basics     tb ON ( tp.tconst = tb.tconst )
+ 49      WHERE
+ 50          tp.category LIKE '%actress%'
+ 51          AND tb.titletype LIKE '%movie%'
+ 52          AND tb.startyear != '\N'
+ 53          AND ( tb.startyear BETWEEN '1953' AND '1962' )
+ 54          AND tp.category = 'actress'
+ 55      GROUP BY
+ 56          nb.primaryname,
+ 57          tb.startyear,
+ 58          nb.nconst,
+ 59          tp.category
+ 60      HAVING
+ 61          COUNT(tb.titletype) >= 3
+ 62      ORDER BY
+ 63          COUNT(tb.titletype) DESC
+ 64      FETCH FIRST 1 ROW WITH TIES
+ 65  );
+
+ID ; Name ; Year ; MaxMovieCount ; Category                                                                                                                                                             
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0477107 ; Tak-Hing Kwan ; 1956 ; 30 ; actor
+nm0638150 ; Muhterem Nur ; 1962 ; 18 ; actress
+
+Elapsed: 00:00:07.396
+SQL> 
+SQL> Set timing off
+SQL> Set echo off
